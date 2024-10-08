@@ -19,7 +19,7 @@ def calc(numbers, operator):
         
         return result
 
-    except NumbersError:
+    except ValueError:
         return "Некорректный ввод" #Выводится в случае если вместо чисел введено что-то другое
 
 while True: #Т.к. я уже немного изучал python до начала курса, я знаю про функцию while. Запускаем бесконечный цикл пока не введено exit
