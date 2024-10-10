@@ -1,4 +1,0 @@
-Команды, использованные в проекте:
-mkdir time-capsule
-cd time-capsule
-mkdir docs src data logs
