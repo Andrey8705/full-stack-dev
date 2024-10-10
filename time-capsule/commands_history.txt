@@ -6,5 +6,15 @@ touch readme.txt
 cd src
 touch script.sh
 chmod +x src/script.sh
-cd
+echo "#!/bin/bash" > src/script.sh
+echo "echo 'Привет! Это мой простой скрипт.'" >> src/script.sh
+touch logs/output.log
+cat docs/readme.txt
+cat data/info.txt
+grep "данные" data/info.txt
+./src/script.sh
+./src/script.sh > logs/output.log
+cat logs/output.log
+find . -name "*.txt"
+ls -R
 
