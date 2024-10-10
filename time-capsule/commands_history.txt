@@ -1,0 +1,17 @@
+Команды, использованные в проекте:
+mkdir time-capsule
+cd time-capsule
+mkdir docs src data logs
+find . -name "*.txt"
+ls -R
+cat logs/output.log
+./src/script.sh > logs/output.log
+./src/script.sh
+grep "данные" data/info.txt
+cat data/info.txt
+cat docs/readme.txt
+touch logs/output.log
+chmod +x src/script.sh
+echo "#!/bin/bash" > src/script.sh
+echo "echo 'Привет! Это мой простой скрипт.'" >> src/script.sh
+
