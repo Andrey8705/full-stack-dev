@@ -1,0 +1,13 @@
+.:
+docs
+project-structure.txt
+scr
+tests
+
+./docs:
+
+./scr:
+main.py
+readme.txt
+
+./tests:

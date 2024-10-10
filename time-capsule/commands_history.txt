@@ -1,0 +1,10 @@
+Команды, использованные в проекте:
+mkdir time-capsule
+cd time-capsule
+mkdir docs src data logs
+touch readme.txt
+cd src
+touch script.sh
+chmod +x src/script.sh
+cd
+
