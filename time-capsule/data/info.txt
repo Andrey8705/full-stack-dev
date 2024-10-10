@@ -1,0 +1,3 @@
+echo "Строка 1: информация" > data/info.txt
+echo "Строка 2: данные" >> data/info.txt
+echo "Строка 3: анализ" >> data/info.txt`
