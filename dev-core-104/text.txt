@@ -1,7 +1,0 @@
-printenv
-echo $PATH
-echo $HOME
-echo $USER
-echo $SHELL
-export MY_VAR="RUST"
-echo $MY_VAR
