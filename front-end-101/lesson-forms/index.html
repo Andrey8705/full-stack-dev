@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<meta charset="UTC-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title> "Моя первая страница" </title>
 		<style>
  			 #hobbies {
@@ -64,5 +66,15 @@
 					<td> 613 км/ч </td>
 				</tr>
 		<h2> Контактная форма </h2>
+		
+		<form action="#" method="POST">
+			<label for="name">Имя:</label>
+			<input type="text" id="name" name="name" required>
+			<label for="email">Электронная почта:</label>
+			<input type="email" id="email" name="email"required>
+			<label for="message">Сообщение:</label>
+			<textarea id="message" name="message" rows="5" required></textarea>
+			<button type="sumbit">Отправить</button>
+		</form>
 	</body>
 </html>
