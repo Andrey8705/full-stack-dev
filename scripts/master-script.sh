@@ -11,7 +11,7 @@ read -p "Введите номер действия (1-5): " ACTION
 case $ACTION in
     1)
         echo "Запуск обновления и апгрейда пакетов..."
-        bash auto-update.sh
+        bash /home/andruxa/full-stack-dev/scripts/auto-update.sh
         ;;
     2)
         echo "Установка Nginx..."
