@@ -40,4 +40,31 @@ def display_participants():
 def display_conference_location():
     print(f"Координаты места проведения конференции: {conference_location}\n")
 
-#
+# Основная функция программы
+def main():
+    while True:
+        print("Выберите действие:")
+        print("1 - Добавить участника")
+        print("2 - Удалить участника")
+        print("3 - Просмотреть список участников")
+        print("4 - Просмотреть координаты места проведения")
+        print("5 - Выйти")
+        
+        choice = input("Ваш выбор: ")
+
+        if choice == '1':
+            add_participant()
+        elif choice == '2':
+            remove_participant()
+        elif choice == '3':
+            display_participants()
+        elif choice == '4':
+            display_conference_location()
+        elif choice == '5':
+            print("Выход из программы.")
+            break
+        else:
+            print("Неверный выбор. Пожалуйста, выберите действие от 1 до 5.\n")
+
+# Запуск программы
+main()
