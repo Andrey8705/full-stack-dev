@@ -1,0 +1,11 @@
+{
+    "Tomatoes": 500,
+    "Cheese": 2000,
+    "Spaghetti": 1500,
+    "Cucumbers": 300,
+    "Lettuce": 700,
+    "Potatoes": 300.0,
+    "Chicken": 1000.0,
+    "Carrot": 300.0,
+    "Salt": 200.0
+}

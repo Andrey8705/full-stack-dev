@@ -1,0 +1,18 @@
+{
+    "Pasta": [
+        "Tomatoes",
+        "Cheese",
+        "Spaghetti"
+    ],
+    "Salad": [
+        "Cucumbers",
+        "Tomatoes",
+        "Lettuce"
+    ],
+    "Chicken soap": [
+        "Potatoes",
+        "Chicken",
+        "Carrot",
+        "Salt"
+    ]
+}
