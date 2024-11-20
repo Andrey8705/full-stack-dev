@@ -1,0 +1,14 @@
+[tool.poetry]
+name = "lesson-3"
+version = "0.1.0"
+description = ""
+authors = ["Andrey8705 <Andrey.shadrin.1998@mail.ru>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
