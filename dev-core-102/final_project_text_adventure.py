@@ -111,7 +111,7 @@ def generate_enemy(wave):
 
 
 def generate_loot():#Генерация лута
-    if random.randint(1, 100) <= 51:  # 50% шанс на зелье лечения
+    if random.randint(1, 100) <= 51:  # 51% шанс на зелье лечения
         return Item("Зелье лечения")
     elif random.randint(1, 100) <= 30:  # 30% шанс на уникальное оружие
         return Weapon("Ржавый железный меч", 14)
