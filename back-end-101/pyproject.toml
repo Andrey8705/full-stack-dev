@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "back-end-101"
+version = "0.1.0"
+description = ""
+authors = ["Andrey8705 <Andrey.shadrin.1998@mail.ru>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = "^0.115.5"
+uvicorn = "^0.32.1"
+setuptools = "^75.6.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
