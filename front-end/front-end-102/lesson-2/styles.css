@@ -1,0 +1,56 @@
+h1 {
+    font-size: 35px;
+    color: green;
+}
+
+h2 {
+    font-size: 15px;
+    color:brown;
+}
+body {
+    background-color: burlywood;
+}
+
+p {
+    font-size: 18px;
+    color: aqua;
+}
+
+button {
+    font-size: 25px;
+    color: blue;
+    background-color: azure;
+    padding: 15px;
+}
+
+.custom_h2 {
+    font-size: 25px;
+    color: crimson;
+}
+
+.custom_p {
+    font-size: 22px;
+    color: black;
+}
+
+.custom_button {
+    font-size: 16px;
+    color: blueviolet;
+    background-color: aquamarine;
+}
+
+#h2 {
+    font-size: 60px;
+    color: azure;
+}
+
+#p {
+    font-size: 60px;
+    color: brown;
+}
+
+#button {
+    font-size: 70px;
+    color: black;
+    background-color: white;
+}
