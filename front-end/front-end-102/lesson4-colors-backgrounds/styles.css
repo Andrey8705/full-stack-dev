@@ -1,0 +1,45 @@
+.div1 {
+    background-color: red;
+    margin: 20px;
+    border: 10px solid hsl(50, 70%, 60%);
+}
+
+.div2 {
+    background-color: #fff00f;
+    margin: 20px;
+    border: 10px dotted rgb(138, 24, 150);
+}
+
+.div3 {
+    background-color: rgb(138, 24, 150);
+    margin: 20px;
+    border: 10px ridge red;
+    box-sizing: content-box;
+}
+
+.div4 {
+    background-color: hsl(50, 70%, 60%);
+    margin: 20px;
+    border: 10px dashed green;
+    box-sizing:border-box;
+}
+
+.h1 {
+    background-color: red;
+    margin: 20px;
+}
+
+.h12 {
+    background-color: #fff00f;
+    margin: 20px;
+}
+
+.h13 {
+    background-color: rgb(138, 24, 150);
+    margin: 20px;
+}
+
+.h14 {
+    background-color: hsl(50, 70%, 60%);
+    margin: 20px;
+}
