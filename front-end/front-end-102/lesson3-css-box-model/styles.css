@@ -1,0 +1,49 @@
+.example-1 {
+    width: 200px;
+    margin: 30px;
+    padding: 20px;
+    box-sizing:content-box;
+    border: 15px red;
+    background-color: aqua;
+
+}
+h1 {
+    margin: 25px;
+    background-color:chartreuse;
+}
+
+h2 {
+    margin: 30px;
+    background-color: deeppink;
+}
+
+#example-2 {
+    width: 250px;
+    background-color: brown;
+    margin: 35px;
+    padding: 25px;
+    box-sizing: border-box;
+    border: 20px gray;
+}
+
+.example-3 {
+    width: 250px;
+    background-color: blue;
+    margin: 35px;
+    padding: 25px;
+    box-sizing: content-box;
+    border: 20px gray;
+}
+
+#example-4 {
+    width: 250px;
+    background-color: purple;
+    margin: 35px;
+    padding: 25px;
+    box-sizing: border-box;
+    border: 20px gray;
+}
+
+.box {
+    background-color: goldenrod;
+}
