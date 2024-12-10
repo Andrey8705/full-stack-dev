@@ -17,15 +17,13 @@
     z-index: 1000;
 }
 
-.menu ul {
+.menu-content {
+    padding-left: 20px;
     display: flex;
     list-style: none;
     justify-content: space-around;
 }
 
-.menu-content {
-    padding-left: 20px;
-}
 .information-panel {
     position: relative;
     padding-top: 80px;
@@ -40,5 +38,5 @@
     background-color: #079e073b;
     margin: auto;
     padding: 10px;
-
+    text-indent: 25px;
 }
