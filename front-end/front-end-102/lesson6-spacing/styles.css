@@ -1,72 +1,68 @@
-/* Общий стиль страницы */
 body {
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
-    margin: 0;
-    padding: 0;
-    background-color: #f9f9f9;
-    color: #333;
-  }
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+  background-color: #f9f9f9;
+  color: #333;
+}
   
-  header {
-    text-align: center;
-    padding: 20px;
-    background-color: #007acc;
-    color: white;
-  }
-  
-  main {
-    gap: 20px;
-    justify-content: center;
-    padding: 20px;
-  }
-  
-  /* Общие стили для коробок */
-  .box {
-    color: white;
-  }
-  
-  /* Индивидуальные стили для каждой коробки */
-  .travel {
-    background-color: #4caf50;
-    margin: 20px 30px 1px 30px;
-  }
-  
-  .sport {
-    background-color: #ff5722;
-    margin: 0px 20px 20px 10px;
-  }
-  
-  .cooking {
-    background-color: #ff9800;
-    margin: 15px;
-  }
-  
-  .work {
-    background-color: #3f51b5;
-    margin: 150px 5px 10px 5px;
-  }
-  
-  .relaxation {
-    background-color: #9c27b0;
-    margin: 700px 5px 0px 5px;
-    padding: 25px;
-  }
-  
-  .music {
-    background-color: #673ab7;
-    margin: 1px 15px 15px 5px;
-    padding: 30px;
-  }
-  
-  /* Дополнительное оформление текста */
-  .h2 {
-    margin-top: 0;
-    font-size: 1.5em;
-  }
-  
-  .p {
-    font-size: 1em;
-    margin: 10px 0 0;
-  }
+header {
+  text-align: center;
+  padding: 20px;
+  background-color: #007acc;
+  color: white;
+}
+
+main {
+  gap: 20px;
+  justify-content: center;
+  padding: 20px;
+}
+
+.box {
+  color: white;
+}
+
+.travel {
+  background-color: #4caf50;
+  margin: 20px 30px 1px 30px;
+}
+
+.sport {
+  background-color: #ff5722;
+  margin: 0px 20px 20px 10px;
+}
+
+.cooking {
+  background-color: #ff9800;
+  margin: 15px;
+}
+
+.work {
+  background-color: #3f51b5;
+  margin: 150px 5px 10px 5px;
+}
+
+.relaxation {
+  background-color: #9c27b0;
+  margin: 700px 5px 0px 5px;
+  padding: 25px;
+}
+
+.music {
+  background-color: #673ab7;
+  margin: 1px 15px 15px 5px;
+  padding: 30px;
+}
+
+.h2 {
+  margin-top: 0;
+  font-size: 1.5em;
+}
+
+.p {
+  font-size: 1em;
+  margin: 10px 0 0;
+}
   
