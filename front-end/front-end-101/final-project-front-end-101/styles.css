@@ -1,0 +1,38 @@
+/* Базовые стили для навигации */
+.flex-navigation {
+    display: flex;
+    flex-wrap: wrap; /* Позволяет элементам переноситься на новую строку */
+    justify-content: center;
+    gap: 15px; /* Расстояние между элементами */
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.flex-navigation a {
+    text-decoration: none;
+    color: white;
+    font-size: 18px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.flex-navigation a:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Адаптивные стили для мобильных устройств */
+@media (max-width: 768px) {
+    .flex-navigation {
+        flex-direction: column; /* Ставим элементы вертикально */
+        align-items: center; /* Центрируем элементы */
+        gap: 10px; /* Уменьшаем расстояние между ссылками */
+    }
+
+    .flex-navigation a {
+        width: 100%; /* Ссылки занимают всю ширину */
+        text-align: center;
+    }
+}

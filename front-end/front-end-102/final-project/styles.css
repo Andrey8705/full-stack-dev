@@ -1,5 +1,14 @@
+/* Исходный CSS сохранён */
+html {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+
 .navigation {
-    margin: 0 0 0 0;
+    margin: 0;
     list-style: none;
     position: fixed;
     top: 0;
@@ -8,11 +17,20 @@
     left: 0;
     z-index: 1;
     object-fit: cover;
-    max-width: 80em;
-    max-height: 80em;
+    max-width: 100%;
+    max-height: 100%;
     background: linear-gradient(to bottom, #000000, #00ff00);
-    background-size: 100% 200%;
+    width: 100%;
+    height: 100%;
     animation: gradientBackground 5s ease infinite;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.content-in-page {
+    background-color: rgba(0, 0, 0, 0.884);
 }
 
 @keyframes gradientBackground {
@@ -28,18 +46,19 @@
 }
 
 .a-links {
-    color: #00ff00; /* Зеленый цвет ссылок */
-    text-decoration: none; /* Убираем подчеркивание */
-    margin: 15px 15px; /* Отступы между ссылками */
-    font-family: 'Exo 2', sans-serif; /* Шрифт для навигации */
-    font-weight: 700; /* Жирный шрифт */
+    color: #00ff00;
+    text-decoration: none;
+    margin: 15px;
+    font-family: 'Exo 2', sans-serif;
+    font-weight: 700;
     transition: color 0.3s;
     text-align: left;
+    display: block;
 }
 
 .site-wrap {
     width: 100%;
-    height: 100vh;
+    height: 100%;
     position: relative;
     z-index: 1;
     left: 0;
@@ -53,6 +72,8 @@
     position: fixed;
     top: 0;
     left: 0;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
     z-index: 0;
     transition: transform 0.5s;
@@ -76,14 +97,12 @@ label[for="nav-trigger"] {
     transition: transform 0.5s ease;
 }
 
-
 .nav-trigger:checked + label {
-    transform: translateX(199px); /* Плавное перемещение */
+    transform: translateX(199px);
 }
 
 .nav-trigger:checked ~ .site-wrap {
     left: 200px;
-    box-shadow: 0 0 5px 5px rgba(0,0,0,0.5);
 }
 
 .nav-trigger + label, .site-wrap {
@@ -91,18 +110,19 @@ label[for="nav-trigger"] {
 }
 
 .nav-trigger:checked ~ .site-wrap video {
-    transform:translateX(199px); /* Сдвиг фона в сторону */
-  }
+    transform:translateX(199px);
+}
 
 body {
     overflow-x: hidden;
     margin: 0;
     padding: 0;
     position: relative;
-    color: #00ff00; /* Зеленый текст */
-    font-family: 'Share Tech Mono', monospace; /* Основной шрифт */
-    display: inline;
+    color: #00ff00;
+    font-family: 'Share Tech Mono', monospace;
     flex-direction: column;
+    max-width: 2560px;
+    max-height: 1469px;
 }
 
 .video {
@@ -120,12 +140,269 @@ body {
     transform: translateX(199px);
 }
 
-.a-links {
-    color: #00ff00; /* Зеленый цвет ссылок */
-    text-decoration: none; /* Убираем подчеркивание */
-    margin: 0 15px; /* Отступы между ссылками */
-    font-family: 'Exo 2', sans-serif; /* Шрифт для навигации */
-    font-weight: 700; /* Жирный шрифт */
-    transition: color 0.3s; /* Плавный переход цвета */
-    text-align: left;
+.title {
+    max-width: 50%;
+    margin-left: 25%;
+    margin-top: 5%;
+}
+
+/* Адаптивность */
+@media (max-width: 2560px) {
+    .navigation {
+        max-width: 100%;
+        max-height: 100%;
+        font-size: 1rem;
+        background: linear-gradient(to bottom, #000000, #00ff00);
+        background-size: 200% 200%;
+        animation: gradientBackground 6s infinite;
+    }
+
+    .title {
+        margin-top: 1%;
+        max-width: 50%;
+        margin-left: 25%;
+        font-size: 5rem;
+    }
+
+    .a-links {
+        margin: 10px;
+        font-size: 2.5rem;
+    }
+
+    .site-wrap video {
+        width: 100%;
+        height: 100%;
+    }
+
+    .nav-trigger:checked + label {
+        transform: translateX(20vw);
+    }
+
+    .nav-trigger:checked ~ .site-wrap {
+        left: 20vw;
+    }
+
+    .nav-trigger:checked ~ .site-wrap video {
+        transform:translateX(20vw);
+    }
+
+    .nav-trigger:checked ~ .site-wrap .content {
+        transform: translateX(20vw);
+    }
+
+    label[for="nav-trigger"] {
+        width: 3vw;
+        height: 3vw;
+    }
+
+    .content-in-page {
+        border-radius: 30px;
+        margin: 8vw;
+        font-size: 1.5vw;
+    }
+}
+
+@media (max-width: 1440px) {
+    .navigation {
+        max-width: 100%;
+        max-height: 100%;
+        font-size: 1rem;
+        background: linear-gradient(to bottom, #000000, #00ff00);
+        background-size: 200% 200%;
+        animation: gradientBackground 6s infinite;
+    }
+
+    .title {
+        margin-top: 1%;
+        max-width: 50%;
+        margin-left: 25%;
+        font-size: 3rem;
+    }
+
+    .a-links {
+        margin: 10px;
+        font-size: 2.5rem;
+    }
+
+    .site-wrap video {
+        width: 100%;
+        height: 100%;
+    }
+
+    .nav-trigger:checked + label {
+        transform: translateX(20vw);
+    }
+
+    .nav-trigger:checked ~ .site-wrap {
+        left: 20vw;
+    }
+
+    .nav-trigger:checked ~ .site-wrap video {
+        transform:translateX(20vw);
+    }
+
+    .nav-trigger:checked ~ .site-wrap .content {
+        transform: translateX(20vw);
+    }
+
+    label[for="nav-trigger"] {
+        width: 3vw;
+        height: 3vw;
+    }
+
+    .content-in-page {
+        border-radius: 30px;
+        margin: 6vw;
+        font-size: 1.5vw;
+    }
+}
+
+@media (max-width: 1200px) {
+    .navigation {
+        max-width: 100%;
+        max-height: 100%;
+        font-size: 1rem;
+        background: linear-gradient(to bottom, #000000, #00ff00);
+        background-size: 200% 200%;
+        animation: gradientBackground 6s infinite;
+    }
+
+    .title {
+        margin-top: 1%;
+        max-width: 50%;
+        margin-left: 25%;
+        font-size: 3vw;
+    }
+
+    .a-links {
+        margin: 10px;
+        font-size: 1.5rem;
+    }
+
+    .site-wrap video {
+        width: 100%;
+        height: 100%;
+    }
+
+    .nav-trigger:checked + label {
+        transform: translateX(20vw);
+    }
+
+    .nav-trigger:checked ~ .site-wrap {
+        left: 20vw;
+    }
+
+    .nav-trigger:checked ~ .site-wrap video {
+        transform:translateX(20vw);
+    }
+
+    .nav-trigger:checked ~ .site-wrap .content {
+        transform: translateX(20vw);
+    }
+
+    .content-in-page {
+        border-radius: 30px;
+        margin: 4vw;
+        font-size: 1.5vw;
+    }
+}
+
+@media (max-width: 768px) {
+    .navigation {
+        max-width: 100%;
+        max-height: 100%;
+        font-size: 1rem;
+        background: linear-gradient(to bottom, #000000, #00ff00);
+        background-size: 200% 200%;
+        animation: gradientBackground 6s infinite;
+    }
+
+    .title {
+        margin-top: 1%;
+        max-width: 50%;
+        margin-left: 25%;
+        font-size: 2.6rem;
+    }
+
+    label[for="nav-trigger"] {
+        top: 10px;
+        left: 10px;
+        width: 40px;
+        height: 40px;
+    }
+
+    .a-links {
+        font-size: 1.5rem;
+    }
+
+    .nav-trigger:checked + label {
+        transform: translateX(30vw);
+    }
+
+    .nav-trigger:checked ~ .site-wrap {
+        left: 30vw;;
+    }
+
+    .nav-trigger:checked ~ .site-wrap video {
+        transform:translateX(30vw);
+    }
+
+    .nav-trigger:checked ~ .site-wrap .content {
+        transform: translateX(30vw);
+    }
+
+    .content-in-page {
+        border-radius: 30px;
+        margin: 2vw;
+        font-size: 2.5vw;
+    }
+}
+
+@media (max-width: 480px) {
+    .navigation {
+        max-width: 100%;
+        max-height: 100%;
+        padding: 10px;
+        background: linear-gradient(to bottom, #000000, #00ff00);
+        background-size: 200% 200%;
+        animation: gradientBackground 6s infinite;
+    }
+
+    .title {
+        max-width: 50%;
+        font-size: 1.5rem;
+        margin-left: 25%;
+    }
+
+    .a-links {
+        font-size: 1.2rem;
+        margin: 10px;
+    }
+
+    label[for="nav-trigger"] {
+        width: 20px;
+        height: 20px;
+    }
+
+    .nav-trigger:checked + label {
+        transform: translateX(44vw);
+    }
+
+    .nav-trigger:checked ~ .site-wrap {
+        left: 44vw;
+    }
+
+    .nav-trigger:checked ~ .site-wrap video {
+        transform:translateX(44vw);
+    }
+
+    .nav-trigger:checked ~ .site-wrap .content {
+        transform: translateX(44vw);
+    }
+
+    .content-in-page {
+        border-radius: 30px;
+        margin: 2vw;
+        font-size: 3vw;
+    }
 }
