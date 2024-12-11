@@ -1,0 +1,131 @@
+.navigation {
+    margin: 0 0 0 0;
+    list-style: none;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    object-fit: cover;
+    max-width: 80em;
+    max-height: 80em;
+    background: linear-gradient(to bottom, #000000, #00ff00);
+    background-size: 100% 200%;
+    animation: gradientBackground 5s ease infinite;
+}
+
+@keyframes gradientBackground {
+    0% {
+        background-position: 0% 0%;
+    }
+    50% {
+        background-position: 100% 100%;
+    }
+    100% {
+        background-position: 0% 0%;
+    }
+}
+
+.a-links {
+    color: #00ff00; /* Зеленый цвет ссылок */
+    text-decoration: none; /* Убираем подчеркивание */
+    margin: 15px 15px; /* Отступы между ссылками */
+    font-family: 'Exo 2', sans-serif; /* Шрифт для навигации */
+    font-weight: 700; /* Жирный шрифт */
+    transition: color 0.3s;
+    text-align: left;
+}
+
+.site-wrap {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    z-index: 1;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    transition: transform 0.5s;
+}
+
+.site-wrap video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    object-fit: cover;
+    z-index: 0;
+    transition: transform 0.5s;
+}
+
+.nav-trigger {
+    position: absolute;
+    clip: rect(0, 0, 0, 0);
+}
+
+label[for="nav-trigger"] {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 2;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' x='0px' y='0px' width='30px' height='30px' viewBox='0 0 30 30' enable-background='new 0 0 30 30' xml:space='preserve'%3E%3Crect width='30' height='6' fill='%2300FF00'/%3E%3Crect y='24' width='30' height='6' fill='%2300FF00'/%3E%3Crect y='12' width='30' height='6' fill='%2300FF00'/%3E%3C/svg%3E");
+    background-size: contain;
+    transition: transform 0.5s ease;
+}
+
+
+.nav-trigger:checked + label {
+    transform: translateX(199px); /* Плавное перемещение */
+}
+
+.nav-trigger:checked ~ .site-wrap {
+    left: 200px;
+    box-shadow: 0 0 5px 5px rgba(0,0,0,0.5);
+}
+
+.nav-trigger + label, .site-wrap {
+    transition: transform 0.5s ease;
+}
+
+.nav-trigger:checked ~ .site-wrap video {
+    transform:translateX(199px); /* Сдвиг фона в сторону */
+  }
+
+body {
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    color: #00ff00; /* Зеленый текст */
+    font-family: 'Share Tech Mono', monospace; /* Основной шрифт */
+    display: inline;
+    flex-direction: column;
+}
+
+.video {
+    position: fixed;
+}
+
+.content {
+    position: relative;
+    text-align: center;
+    color: chartreuse;
+    transition: transform 0.5s ease;
+}
+
+.nav-trigger:checked ~ .site-wrap .content {
+    transform: translateX(199px);
+}
+
+.a-links {
+    color: #00ff00; /* Зеленый цвет ссылок */
+    text-decoration: none; /* Убираем подчеркивание */
+    margin: 0 15px; /* Отступы между ссылками */
+    font-family: 'Exo 2', sans-serif; /* Шрифт для навигации */
+    font-weight: 700; /* Жирный шрифт */
+    transition: color 0.3s; /* Плавный переход цвета */
+    text-align: left;
+}
