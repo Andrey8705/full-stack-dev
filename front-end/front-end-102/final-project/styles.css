@@ -191,7 +191,6 @@ body {
     margin-top: 5%;
 }
 
-/* Адаптивность */
 @media (max-width: 2560px) {
     .navigation {
         max-width: 100%;
