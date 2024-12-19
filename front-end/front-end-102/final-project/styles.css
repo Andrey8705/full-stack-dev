@@ -113,12 +113,14 @@ html {
     transition: transform 0.5s;
 }
 
-.site-wrap video {
+.container {
+    background-image: url(media/background.jpg);
+    background-size: 100% auto;
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    bottom: 0;
+    right: 0;
     object-fit: cover;
     z-index: 0;
     transition: transform 0.5s;
@@ -154,7 +156,7 @@ label[for="nav-trigger"] {
     transition: transform 0.5s ease;
 }
 
-.nav-trigger:checked ~ .site-wrap video {
+.nav-trigger:checked ~ .site-wrap .container {
     transform:translateX(199px);
 }
 
@@ -168,10 +170,6 @@ body {
     flex-direction: column;
     width: 100%;
     height: 100%;
-}
-
-.video {
-    position: fixed;
 }
 
 .content {
@@ -213,11 +211,6 @@ body {
         font-size: 2.5rem;
     }
 
-    .site-wrap video {
-        width: 100%;
-        height: 100%;
-    }
-
     .nav-trigger:checked + label {
         transform: translateX(20vw);
     }
@@ -226,7 +219,7 @@ body {
         left: 20vw;
     }
 
-    .nav-trigger:checked ~ .site-wrap video {
+    .nav-trigger:checked ~ .site-wrap .container {
         transform:translateX(20vw);
     }
 
@@ -295,11 +288,6 @@ body {
         font-size: 2.2rem;
     }
 
-    .site-wrap video {
-        width: 100%;
-        height: 100%;
-    }
-
     .nav-trigger:checked + label {
         transform: translateX(20vw);
     }
@@ -308,7 +296,7 @@ body {
         left: 20vw;
     }
 
-    .nav-trigger:checked ~ .site-wrap video {
+    .nav-trigger:checked ~ .site-wrap .container {
         transform:translateX(20vw);
     }
 
@@ -377,11 +365,6 @@ body {
         font-size: 1.5rem;
     }
 
-    .site-wrap video {
-        width: 100%;
-        height: 100%;
-    }
-
     .nav-trigger:checked + label {
         transform: translateX(22vw);
     }
@@ -390,7 +373,7 @@ body {
         left: 22vw;
     }
 
-    .nav-trigger:checked ~ .site-wrap video {
+    .nav-trigger:checked ~ .site-wrap .container {
         transform:translateX(22vw);
     }
 
@@ -468,7 +451,7 @@ body {
         left: 30vw;;
     }
 
-    .nav-trigger:checked ~ .site-wrap video {
+    .nav-trigger:checked ~ .site-wrap .container {
         transform:translateX(30vw);
     }
 
@@ -544,7 +527,7 @@ body {
         left: 44vw;
     }
 
-    .nav-trigger:checked ~ .site-wrap video {
+    .nav-trigger:checked ~ .site-wrap .container {
         transform:translateX(44vw);
     }
 
