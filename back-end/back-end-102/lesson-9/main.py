@@ -1,10 +1,14 @@
 import email
+from logging import RootLogger
+from os import name
 import token
+from unittest.mock import Base
+from click import password_option
 from fastapi import FastAPI, HTTPException
 import bcrypt
 from jose import jwt
 from datetime import datetime, timedelta
-from pydantic import EmailStr
+from pydantic import EmailStr, BaseModel
 from fastapi import Depends, HTTPException
 from fastapi.security import OAuth2PasswordBearer
 from uuid import uuid4
@@ -19,12 +23,20 @@ REFRESH_TOKEN_EXPIRE_DAYS = 7
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
 
-users = [ #Начальный словарь с пользователями
-    {"id": 1, "name": "Adilet", "email": "adilet@example.com", "role": "admin"},
-    {"id": 2, "name": "Anuar", "email": "anuar@example.com", "role": "user"}
-]
+class UserRegister(BaseModel):
+    name: str
+    id: int
+    password: str
+    email: EmailStr
+    role: str
 
-def create_refresh_token(email: str):
+class UserLogin(BaseModel):
+    email: EmailStr
+    password: str
+
+users = []
+
+def create_refresh_token(email: EmailStr) -> str:
     token_id = str(uuid4())  # Генерируем уникальный идентификатор
     expire = datetime.utcnow() + timedelta(days=REFRESH_TOKEN_EXPIRE_DAYS)
     to_encode = {"sub": email, "id": token_id, "exp": expire}
@@ -60,20 +72,20 @@ def check_user_role(token_data: dict, required_role: str):
         raise HTTPException(status_code = 403, detail = f"Acces denied: requires {required_role} role")
 
 @app.post("/auth/register")  #Эндпроинт для регистрации нового пользователя и присвоения ему id
-def register_user(name: str, email: EmailStr, password: str, role: str = "user"):
-    if any(u["email"] == email for u in users): #Если почта уже занята - выводим ошибку.
+def register_user(user: UserRegister):
+    if any(u["email"] == user.email for u in users): #Если почта уже занята - выводим ошибку.
         return {"error": "Email already exists"}
-    if len(password) < 6: #Если пароль короче 6 символов - выводим ошибку.
+    if len(user.password) < 6: #Если пароль короче 6 символов - выводим ошибку.
         return {"error": "Password too short"}
 
-    hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+    hashed_password = bcrypt.hashpw(user.password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
 
     new_user = {
         "id" : len(users) + 1,
-        "name": name,
-        "email": email,
+        "name": user.name,
+        "email": user.email,
         "password": hashed_password,
-        "role": role,
+        "role": user.role,
     }
     users.append(new_user)
     return {"message": f"User {new_user["name"]} created successfully!"}
@@ -88,20 +100,20 @@ def register_user(name: str, email: EmailStr, password: str, role: str = "user")
        # return {"refresh_token": refresh_token, "acces_token": token,"message": f"Welcome, {user["name"]}"}
 
 @app.post("/auth/login")
-def login_user(email: str, password: str):
+def login_user(user: UserLogin):
     # Проверяем пользователя
-    user = next((u for u in users if u["email"] == email), None)
-    if not user or not bcrypt.checkpw(password.encode('utf-8'), user["password"].encode('utf-8')):
+    existing_user = next((u for u in users if u["email"] == user.email), None)
+    if not user or not bcrypt.checkpw(user.password.encode('utf-8'), existing_user["password"].encode('utf-8')):
         return {"error": "Invalid email or password"}
     
     # Удаляем все активные Refresh Tokens для этого пользователя
-    tokens_to_revoke = [key for key, value in active_refresh_tokens.items() if value["email"] == email]
+    tokens_to_revoke = [key for key, value in active_refresh_tokens.items() if value["email"] == user.email]
     for token_id in tokens_to_revoke:
         del active_refresh_tokens[token_id]
     
     # Генерируем новые токены
-    access_token = create_access_token({"sub": user["email"], "role": user["role"], "name": user["name"]})
-    refresh_token = create_refresh_token(user["email"])
+    access_token = create_access_token({"sub": existing_user["email"], "role": existing_user["role"], "name": existing_user["name"]})
+    refresh_token = create_refresh_token(existing_user["email"])
     
     return {
         "access_token": access_token,
