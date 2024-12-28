@@ -12,13 +12,14 @@ from pydantic import EmailStr, BaseModel
 from fastapi import Depends, HTTPException
 from fastapi.security import OAuth2PasswordBearer
 from uuid import uuid4
+
 active_refresh_tokens = {}
 
 app = FastAPI()
 
 SECRET_KEY = "it_is_my_hard_secret_key"
 ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 15
+ACCESS_TOKEN_EXPIRE_MINUTES = 0
 REFRESH_TOKEN_EXPIRE_DAYS = 7
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
@@ -45,12 +46,6 @@ def create_refresh_token(email: EmailStr) -> str:
     # Сохраняем токен как активный
     active_refresh_tokens[token_id] = {"email": email, "expires_at": expire}
     return refresh_token
-
- #   def create_refresh_token(data: dict):
-  #      to_encode = data.copy()
-   #     expire = datetime.utcnow() + timedelta(days=REFRESH_TOKEN_EXPIRE_DAYS)
-    #    to_encode.update({"exp": expire})
-     #   return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
 
 def verify_acces_token(token: str):
     try:
@@ -89,15 +84,6 @@ def register_user(user: UserRegister):
     }
     users.append(new_user)
     return {"message": f"User {new_user["name"]} created successfully!"}
-
-#    @app.post("/auth/login")#Эндпоинт авторизации пользователя
- #   def login_user(email: EmailStr, password: str):
-  #      user = next((u for u in users if u["email"] == email), None)
-   #     token = create_access_token({"sub": user["email"], "role": user["role"], "name": user["name"]})
-    #    refresh_token = create_refresh_token({"sub": user["email"]})
-     #   if not bcrypt.checkpw(password.encode('utf-8'), user["password"].encode('utf-8')):#Сравнение хэшей паролей
-      #      return {"error": "Invalid email or password"}
-       # return {"refresh_token": refresh_token, "acces_token": token,"message": f"Welcome, {user["name"]}"}
 
 @app.post("/auth/login")
 def login_user(user: UserLogin):
@@ -179,24 +165,6 @@ def user_resourse(token: str = Depends(oauth2_scheme)):
     check_user_role(user_data, "user")
     return {"message": f"Welcome, {user_data["name"]}! This resource for users only."}
 
- #   @app.post("/auth/refresh")
-  #  def refresh_acces_token(refresh_token: str):
-   #     try:
-    #        payload = jwt.decode(refresh_token,SECRET_KEY,algorithms=ALGORITHM)
-     #       email = payload.get("sub")
-      #      name = payload.get("name")
-       #     role = payload.get("role")
-        #    if not email:
-         #       raise HTTPException(status_code=401, detail="Invalid token")
-          #  
-           # new_acces_token = create_acces_token({"sub": email, "name": name,"role": role})
-            #return {"access_token": new_acces_token}
-        
-  #      except jwt.ExpiredSignatureError:
-   #         raise HTTPException(status_code=401, detail="Refresh token expired")
-    #    except jwt.JWTError:
-     #       raise HTTPException(status_code=401, detail="Invalid token")
-
 @app.post("/auth/refresh")
 def refresh_access_token(refresh_token: str):
     try:
@@ -225,3 +193,13 @@ def refresh_access_token(refresh_token: str):
         raise HTTPException(status_code=401, detail="Refresh token expired")
     except jwt.JWTError:
         raise HTTPException(status_code=401, detail="Invalid token")
+    
+@app.post ("/auth/logout")
+def logout_user(token: str = Depends(oauth2_scheme)):
+        payload = verify_acces_token(token)
+        email = payload.get("sub")
+        tokens_to_revoke = [key for key, value in active_refresh_tokens.items() if value["email"] == email]
+        for token_id in tokens_to_revoke:
+            del active_refresh_tokens[token_id]
+
+        return {"message": "Successfully logged out"}
