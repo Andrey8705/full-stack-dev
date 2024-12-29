@@ -1,9 +1,10 @@
+from sys import deactivate_stack_trampoline
 import token
 from fastapi import FastAPI, HTTPException
 import bcrypt
 from jose import jwt
 from datetime import datetime, timedelta
-from pydantic import EmailStr, BaseModel
+from pydantic import EmailStr, BaseModel, Field
 from fastapi import Depends
 from fastapi.security import OAuth2PasswordBearer
 from uuid import uuid4
@@ -21,10 +22,9 @@ REFRESH_TOKEN_EXPIRE_DAYS = 7
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
 
 class CapsuleCreate(BaseModel):
-    name: str
-    path: Path
-    unlock_data: datetime = datetime.utcnow()
-    message: str
+    name: str = Field(description= "Название капсулы")
+    unlock_data: str = Field(description= "Дата когда капсула будет открыта. Формат *ГГГГ.ММ.ДД*")
+    message: str = Field(description= "Короткое сообщение для получателя.")
 
 class UserRegister(BaseModel):
     name: str
@@ -67,6 +67,10 @@ def check_user_role(token_data: dict, required_role: str):
     user_role = token_data.get("role")
     if user_role != required_role:
         raise HTTPException(status_code = 403, detail = f"Acces denied: requires {required_role} role")
+    
+def check_user_and_capsule_user_id(user_data, capsule_user_id):
+    if user_data != capsule_user_id:
+        raise HTTPException(status_code= 403, detail= "Acces debied: it's not your capsule!")
 
 @app.post("/auth/register")  #Эндпроинт для регистрации нового пользователя и присвоения ему id
 def register_user(user: UserRegister):
@@ -213,15 +217,17 @@ def create_capsule(capsule: CapsuleCreate, token: str = Depends(oauth2_scheme)):
     new_capsule = {
         "id": len(capsules) + 1,
         "name": capsule.name,
-        "path": capsule.path,
         "user_id": user_id,
-        "create_data": datetime.utcnow(),
-        "unlock_data": capsule.unlock_data,
+        "create_data": datetime.utcnow().strftime("%Y.%m.%d"),
+        "unlock_data": datetime.strptime(capsule.unlock_data, "%Y.%m.%d").strftime("%Y.%m.%d"),
         "message": capsule.message
     }
     capsules.append(new_capsule)
+    create_date = datetime.strptime(new_capsule["create_data"], "%Y.%m.%d").date()
+    unlock_date = datetime.strptime(new_capsule["unlock_data"], "%Y.%m.%d").date()
+    days_to_open = (unlock_date - create_date).days
 
-    return {"message": f"Capsule {new_capsule["name"]} successfuly created."}
+    return {"message": f"Capsule {new_capsule["name"]} successfuly created. Capsule id - {new_capsule["id"]}. Capsule will be opened in {days_to_open} days"}
 
 @app.get("/capsules/")
 def get_capsules(token: str = Depends(oauth2_scheme)):
@@ -230,3 +236,16 @@ def get_capsules(token: str = Depends(oauth2_scheme)):
     check_user_role(user_data, "admin")
 
     return capsules
+
+@app.get("/capsule/{id}")
+def get_capsule_by_id(id : int, token: str = Depends(oauth2_scheme)):
+    payload =  verify_acces_token(token)
+    user_data = payload.get("id")
+
+    capsule = next((capsule for capsule in capsules if capsule["id"] == id), None)
+    if not capsule:
+        raise HTTPException(status_code=404, detail="Capsule not found")
+    
+    check_user_and_capsule_user_id(user_data, capsule["user_id"])
+
+    return capsule
