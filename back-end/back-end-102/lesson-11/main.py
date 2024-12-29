@@ -1,5 +1,3 @@
-from sys import deactivate_stack_trampoline
-from tkinter import NO
 import token
 from fastapi import FastAPI, HTTPException
 import bcrypt
@@ -9,7 +7,6 @@ from pydantic import EmailStr, BaseModel, Field
 from fastapi import Depends
 from fastapi.security import OAuth2PasswordBearer
 from uuid import uuid4
-from pathlib import Path
 
 active_refresh_tokens = {}
 
