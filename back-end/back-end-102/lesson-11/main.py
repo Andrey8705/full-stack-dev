@@ -1,4 +1,5 @@
 from sys import deactivate_stack_trampoline
+from tkinter import NO
 import token
 from fastapi import FastAPI, HTTPException
 import bcrypt
@@ -112,13 +113,13 @@ def login_user(user: UserLogin):
         "refresh_token": refresh_token
     }
 
-@app.get("/users") #Эндпоинт вывода всех пользователей
+@app.get("/admin/get/users/all") #Эндпоинт вывода всех пользователей
 def get_users(token: str = Depends(oauth2_scheme)):
     user_data = verify_acces_token(token)
     check_user_role(user_data, "admin")
     return users
 
-@app.get("/users/{id}", summary="Get user by id") #Эндпоинт выводящий пользователя по id
+@app.get("/admin/get/users/{id}", summary="Get user by id") #Эндпоинт выводящий пользователя по id
 def get_user_by_id(id:int, token: str = Depends(oauth2_scheme)):
     user_data = verify_acces_token(token)
     check_user_role(user_data, "admin")
@@ -127,19 +128,19 @@ def get_user_by_id(id:int, token: str = Depends(oauth2_scheme)):
         raise HTTPException(status_code=404, detail="User not found")
     return user
 
-@app.put("/users/{id}", summary="Update user data") #Эндпоинт для обновления информации о пользователе
-def update_user_data(id:int, user_name:str, email:EmailStr, role:str, token: str = Depends(oauth2_scheme)):
-    user_data = verify_acces_token(token)
-    check_user_role(user_data, "admin")
+@app.put("/admin/edit/users/{id}", summary="Update user data") #Эндпоинт для обновления информации о пользователе
+def update_user_data(id:int, user_data: UserRegister, token: str = Depends(oauth2_scheme)):
+    payload = verify_acces_token(token)
+    check_user_role(payload, "admin")
     user = next((user for user in users if user["id"] == id), None)
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
-    user["name"] = user_name
-    user["email"] = email
-    user["role"] = role
+    user["name"] = user_data.name
+    user["email"] = user_data.email
+    user["role"] = user_data.role
     return user
 
-@app.delete("/users/{id}", summary="Delete user") #Эндпоинт для удаления пользователя
+@app.delete("/admin/delete/users/{id}", summary="Delete user") #Эндпоинт для удаления пользователя
 def delete_user(id:int, token: str = Depends(oauth2_scheme)):
     user_data = verify_acces_token(token)
     check_user_role(user_data, "admin")
@@ -165,7 +166,7 @@ def admin_route(token: str = Depends(oauth2_scheme)):
     check_user_role(user_data, "admin")
     return {"message": "Welcome, Admin! You have full acces!"}
 
-@app.get("/user-resource")
+@app.get("/user/user-resource")
 def user_resourse(token: str = Depends(oauth2_scheme)):
     user_data = verify_acces_token(token)
     check_user_role(user_data, "user")
@@ -210,14 +211,14 @@ def logout_user(token: str = Depends(oauth2_scheme)):
 
         return {"message": "Successfully logged out"}
 
-@app.post ("/create-capsule/")
+@app.post ("/capsule/create-capsule/")
 def create_capsule(capsule: CapsuleCreate, token: str = Depends(oauth2_scheme)):
     payload = verify_acces_token(token)
-    user_id = payload.get("id")
+    user_data = payload
     new_capsule = {
         "id": len(capsules) + 1,
         "name": capsule.name,
-        "user_id": user_id,
+        "user_id": user_data["id"],
         "create_data": datetime.utcnow().strftime("%Y.%m.%d"),
         "unlock_data": datetime.strptime(capsule.unlock_data, "%Y.%m.%d").strftime("%Y.%m.%d"),
         "message": capsule.message
@@ -229,7 +230,7 @@ def create_capsule(capsule: CapsuleCreate, token: str = Depends(oauth2_scheme)):
 
     return {"message": f"Capsule {new_capsule["name"]} successfuly created. Capsule id - {new_capsule["id"]}. Capsule will be opened in {days_to_open} days"}
 
-@app.get("/capsules/")
+@app.get("/admin/get/capsule/all")
 def get_capsules(token: str = Depends(oauth2_scheme)):
 
     user_data = verify_acces_token(token)
@@ -237,10 +238,10 @@ def get_capsules(token: str = Depends(oauth2_scheme)):
 
     return capsules
 
-@app.get("/capsule/{id}")
+@app.get("/admin/get/capsule/{id}")
 def get_capsule_by_id(id : int, token: str = Depends(oauth2_scheme)):
     payload =  verify_acces_token(token)
-    user_data = payload.get("id")
+    user_data = payload
 
     capsule = next((capsule for capsule in capsules if capsule["id"] == id), None)
     if not capsule:
@@ -249,3 +250,36 @@ def get_capsule_by_id(id : int, token: str = Depends(oauth2_scheme)):
     check_user_and_capsule_user_id(user_data, capsule["user_id"])
 
     return capsule
+
+@app.delete("/admin/delete/capsule/{id}")
+def delete_capsule(id: int, token: str = Depends(oauth2_scheme)):
+    payload = verify_acces_token(token)
+    user_data = payload
+    check_user_role(user_data, "admin")
+    global capsules
+
+    capsule = next((capsule for capsule in capsules if capsule["id"] == id), None)
+    if not capsule:
+        raise HTTPException(status_code=404, detail="Capsule not found")
+    capsules = [t for t in capsules if t["id"] != id]
+
+    return{"message":f"{capsule["name"]} successfuly deleted"}
+
+@app.put("/admin/edit/capsule/{id}")
+def edit_capsule(id: int, capsule_data: CapsuleCreate, token: str = Depends(oauth2_scheme)):
+    payload = verify_acces_token(token)
+    user_data = payload
+    check_user_role(user_data, "admin")
+    global capsules
+
+    capsule = next((capsule for capsule in capsules if capsule["id"] == id), None)
+    if not capsule:
+        raise HTTPException(status_code=404, detail="Capsule not found")
+    capsules = [t for t in capsules if t["id"] != id]
+    capsule["name"] = capsule_data.name
+    capsule["unlock_data"] = capsule_data.unlock_data
+    capsule["message"] = capsule_data.message
+
+    return capsule
+
+    
