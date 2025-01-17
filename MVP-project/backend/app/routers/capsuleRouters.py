@@ -16,6 +16,18 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
 def create_capsule(capsule: CapsuleCreate, db: Session = Depends(get_db), token: str = Depends(oauth2_scheme)):
     user_data = verify_acces_token(token)
     create_date_now = datetime.utcnow()
+
+    try:
+        open_date = datetime.strptime(capsule.unlock_date, "%Y-%m-%d")
+    except ValueError:
+        raise HTTPException(
+            status_code=400,
+            detail="Invalid date format or invalid date. Use ('2025-01-20')."
+        )
+
+    if open_date <= create_date_now:
+        raise HTTPException(status_code=400,detail="Open date can't be < created date")
+
     new_capsule = Capsule(
         name = capsule.name,
         create_date = create_date_now,
@@ -23,10 +35,11 @@ def create_capsule(capsule: CapsuleCreate, db: Session = Depends(get_db), token:
         message = capsule.message,
         user_id = user_data["id"]
     )
+    time_to_open = (new_capsule.unlock_date - new_capsule.create_date).days
     db.add(new_capsule)
     db.commit()
     db.refresh(new_capsule)    
-    return {"message": f"Capsule {new_capsule.name} successfuly created."}
+    return {"message": f"Capsule {new_capsule.name} successfuly created. {time_to_open} days before opening the capsule"}
 
 @router.get("/admin/get/capsule/all")
 def get_capsules(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
