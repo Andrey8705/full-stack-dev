@@ -1,5 +1,6 @@
 from models.capsuleBaseModel import CapsuleCreate
-from database.db_setup import SessionLocal, get_db
+from database.db_setup import get_db
+from sqlalchemy.orm import Session
 from fastapi import APIRouter, HTTPException, Depends
 from datetime import datetime
 from models.capsuleBase import Capsule
@@ -12,7 +13,7 @@ router = APIRouter()
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
 
 @router.post ("/capsule/create-capsule/")
-def create_capsule(capsule: CapsuleCreate, db: SessionLocal = Depends(get_db), token: str = Depends(oauth2_scheme)):
+def create_capsule(capsule: CapsuleCreate, db: Session = Depends(get_db), token: str = Depends(oauth2_scheme)):
     user_data = verify_acces_token(token)
     create_date_now = datetime.utcnow()
     new_capsule = Capsule(
@@ -28,7 +29,7 @@ def create_capsule(capsule: CapsuleCreate, db: SessionLocal = Depends(get_db), t
     return {"message": f"Capsule {new_capsule.name} successfuly created."}
 
 @router.get("/admin/get/capsule/all")
-def get_capsules(token: str = Depends(oauth2_scheme), db: SessionLocal = Depends(get_db)):
+def get_capsules(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
     user_data = verify_acces_token(token)
     check_user_role(user_data, "admin")
     capsules = db.query(Capsule).all()
@@ -36,7 +37,7 @@ def get_capsules(token: str = Depends(oauth2_scheme), db: SessionLocal = Depends
     return capsules
 
 @router.get("/admin/get/capsule/{id}")
-def get_capsule_by_id(id : int, token: str = Depends(oauth2_scheme), db: SessionLocal = Depends(get_db)):
+def get_capsule_by_id(id : int, token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
     user_data =  verify_acces_token(token)
     capsule = db.query(Capsule).filter(Capsule.id == id).first()
     if not capsule:
@@ -47,7 +48,7 @@ def get_capsule_by_id(id : int, token: str = Depends(oauth2_scheme), db: Session
     return capsule
 
 @router.delete("/admin/delete/capsule/{id}")
-def delete_capsule(id: int, token: str = Depends(oauth2_scheme), db: SessionLocal = Depends(get_db)):
+def delete_capsule(id: int, token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
     user_data = verify_acces_token(token)
     check_user_role(user_data, "admin")
     capsule = db.query(Capsule).filter(Capsule.id == id).first()
@@ -59,7 +60,7 @@ def delete_capsule(id: int, token: str = Depends(oauth2_scheme), db: SessionLoca
     return{"message":f"{capsule["name"]} successfuly deleted"}
 
 @router.put("/admin/edit/capsule/{id}")
-def edit_capsule(id: int, capsule_data: CapsuleCreate, token: str = Depends(oauth2_scheme), db: SessionLocal = Depends(get_db)):
+def edit_capsule(id: int, capsule_data: CapsuleCreate, token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
     user_data = verify_acces_token(token)
     check_user_role(user_data, "admin")
     capsule = db.query(Capsule).filter(Capsule.id == id).first()

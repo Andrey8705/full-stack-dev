@@ -1,4 +1,4 @@
-from database.db_setup import SessionLocal
+from sqlalchemy.orm import Session
 from uuid import uuid4
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
@@ -15,7 +15,7 @@ REFRESH_TOKEN_EXPIRE_DAYS = int(os.getenv("REFRESH_TOKEN_EXPIRE_DAYS"))
 
 
 
-def create_refresh_token(user_id: int, db: SessionLocal):
+def create_refresh_token(user_id: int, db: Session):
     from models.tokenBase import Token
     token_id = str(uuid4())  # Генерируем уникальный идентификатор
     expires_at = datetime.utcnow() + timedelta(days=REFRESH_TOKEN_EXPIRE_DAYS)
