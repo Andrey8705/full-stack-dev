@@ -27,7 +27,7 @@ def register_user(user: UserRegister, db: Session = Depends(get_db)):
         return {"error": "Password too short"}
 
     hashed_password = bcrypt.hashpw(user.password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
-    new_user = User(name=user.name, email=user.email, password=hashed_password, role=user.role)
+    new_user = User(name=user.name, email=user.email, password=hashed_password)
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
@@ -71,7 +71,7 @@ def get_user_by_id(id: int, token: str = Depends(oauth2_scheme), db: Session = D
     return user
 
 @router.put("/admin/edit/users/{id}")
-def update_user_data(id: int, user_data: UserRegister, token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
+def update_user_data(id: int, user_data: UserRegister,role: str = None, token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
     from models.userBase import User  # Перемещаем импорт сюда
     user_data_from_token = verify_acces_token(token)
     check_user_role(user_data_from_token, "admin")
@@ -80,7 +80,7 @@ def update_user_data(id: int, user_data: UserRegister, token: str = Depends(oaut
         raise HTTPException(status_code=404, detail="User not found")
     user.name = user_data.name
     user.email = user_data.email
-    user.role = user_data.role
+    user.role = role
     db.commit()
     return user
 
