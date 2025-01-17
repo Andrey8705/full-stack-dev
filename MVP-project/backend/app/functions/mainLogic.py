@@ -26,7 +26,6 @@ def create_refresh_token(user_id: int, db: Session):
     new_token = Token(token_id= token_id, user_id= user_id, expires_at= expires_at)
     db.add(new_token)
     db.commit()
-    #active_refresh_tokens[token_id] = {"email": email, "expires_at": expire}
     return refresh_token
 
 def verify_acces_token(token: str):
