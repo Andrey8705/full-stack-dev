@@ -1,6 +1,7 @@
 import dotenv
 from fastapi import APIRouter, HTTPException, Depends
-from database.db_setup import SessionLocal, get_db
+from database.db_setup import get_db
+from sqlalchemy.orm import Session
 from models.userBaseModel import UserRegister, UserLogin
 import bcrypt
 from fastapi.security import OAuth2PasswordBearer
@@ -9,7 +10,6 @@ from datetime import datetime
 from jose import jwt
 from dotenv import load_dotenv
 from functions.mainLogic import create_access_token, create_refresh_token, check_user_role, verify_acces_token
-#from main import create_access_token, create_refresh_token, check_user_role, check_user_and_capsule_user_id, verify_acces_token
 
 load_dotenv()
 router = APIRouter()
@@ -17,7 +17,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
 DATABASE_URL = os.getenv("DATABASE_URL")
 
 @router.post("/auth/register")
-def register_user(user: UserRegister, db: SessionLocal = Depends(get_db)):
+def register_user(user: UserRegister, db: Session = Depends(get_db)):
     # Перемещаем импорт сюда, чтобы избежать кругового импорта
     from models.userBase import User
     existing_user = db.query(User).filter(User.email == user.email).first()
@@ -34,7 +34,7 @@ def register_user(user: UserRegister, db: SessionLocal = Depends(get_db)):
     return {"message": f"User {new_user.name} successfully registered"}
 
 @router.post("/auth/login")
-def login_user(user: UserLogin, db: SessionLocal = Depends(get_db)):
+def login_user(user: UserLogin, db: Session = Depends(get_db)):
     # Перемещаем импорт сюда
 
     from models.userBase import User
@@ -52,7 +52,7 @@ def login_user(user: UserLogin, db: SessionLocal = Depends(get_db)):
     }
 
 @router.get("/admin/get/users/all")
-def get_users(token: str = Depends(oauth2_scheme), db: SessionLocal = Depends(get_db)):
+def get_users(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
     from models.userBase import User  # Перемещаем импорт сюда
     from models.tokenBase import Token
     user_data = verify_acces_token(token)
@@ -61,7 +61,7 @@ def get_users(token: str = Depends(oauth2_scheme), db: SessionLocal = Depends(ge
     return users
 
 @router.get("/admin/get/users/{id}")
-def get_user_by_id(id: int, token: str = Depends(oauth2_scheme), db: SessionLocal = Depends(get_db)):
+def get_user_by_id(id: int, token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
     from models.userBase import User  # Перемещаем импорт сюда
     user_data = verify_acces_token(token)
     check_user_role(user_data, "admin")
@@ -71,7 +71,7 @@ def get_user_by_id(id: int, token: str = Depends(oauth2_scheme), db: SessionLoca
     return user
 
 @router.put("/admin/edit/users/{id}")
-def update_user_data(id: int, user_data: UserRegister, token: str = Depends(oauth2_scheme), db: SessionLocal = Depends(get_db)):
+def update_user_data(id: int, user_data: UserRegister, token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
     from models.userBase import User  # Перемещаем импорт сюда
     user_data_from_token = verify_acces_token(token)
     check_user_role(user_data_from_token, "admin")
@@ -85,7 +85,7 @@ def update_user_data(id: int, user_data: UserRegister, token: str = Depends(oaut
     return user
 
 @router.delete("/admin/delete/users/{id}")
-def delete_user(id: int, token: str = Depends(oauth2_scheme), db: SessionLocal = Depends(get_db)):
+def delete_user(id: int, token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
     from models.userBase import User  # Перемещаем импорт сюда
     user_data = verify_acces_token(token)
     check_user_role(user_data, "admin")
@@ -106,7 +106,7 @@ def get_current_user(token: str = Depends(oauth2_scheme)):
     }
 
 @router.post("/auth/refresh")
-def refresh_access_token(refresh_token: str, db: SessionLocal = Depends(get_db)):
+def refresh_access_token(refresh_token: str, db: Session = Depends(get_db)):
     from backend.app.models.userBase import User
     try:
         # Перемещаем импорт сюда
@@ -137,7 +137,7 @@ def refresh_access_token(refresh_token: str, db: SessionLocal = Depends(get_db))
         raise HTTPException(status_code=401, detail="Invalid token")
     
 @router.post("/auth/logout")
-def logout_user(token: str = Depends(oauth2_scheme), db: SessionLocal = Depends(get_db)):
+def logout_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
     from backend.app.models.tokenBase import Token
     payload = verify_acces_token(token)
     user_id = payload.get("id")
