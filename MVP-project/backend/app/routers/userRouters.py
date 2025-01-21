@@ -2,6 +2,7 @@ import dotenv
 from fastapi import APIRouter, HTTPException, Depends
 from database.db_setup import get_db
 from sqlalchemy.orm import Session
+from fastapi.responses import JSONResponse
 from models.userBaseModel import UserRegister, UserLogin
 import bcrypt
 from fastapi.security import OAuth2PasswordBearer
@@ -12,6 +13,7 @@ from datetime import datetime
 from jose import jwt
 from dotenv import load_dotenv
 from functions.mainLogic import create_access_token, create_refresh_token, check_user_role, verify_acces_token
+
 
 load_dotenv()
 router = APIRouter()
@@ -25,14 +27,14 @@ def register_user(user: UserRegister, db: Session = Depends(get_db)):
     if existing_user:
         raise HTTPException(status_code=400, detail="Email already registered")
     if len(user.password) < 6:
-        return {"error": "Password too short"}
+        return JSONResponse(content={"error": "Password too short"})
 
     hashed_password = bcrypt.hashpw(user.password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
     new_user = User(name=user.name, email=user.email, password=hashed_password)
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
-    return {"message": f"User {new_user.name} successfully registered"}
+    return JSONResponse(content={"message": f"User {new_user.name} successfully registered"})
 
 @router.post("/auth/login")
 def login_user(user: UserLogin, db: Session = Depends(get_db)):
