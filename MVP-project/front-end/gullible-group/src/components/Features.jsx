@@ -13,6 +13,10 @@ const Features = () => {
         padding: '50px 20px',
         textAlign: 'center',
         background: '#111',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        color: 'while',
       }}
     >
       <h2 style={{ fontSize: '2.5rem', marginBottom: '20px' }}>Features</h2>
