@@ -5,9 +5,9 @@ const HeroSection: React.FC = () => {
   const navigate = useNavigate(); // Хук для навигации
 
   return (
-    <section className="flex flex-col items-center justify-center bg-black text-white py-20">
+    <section className="flex flex-col items-center justify-center text-white py-20">
       <img
-        src="/images/logo.png"
+        src="/public/logo.png"
         alt="Logo"
         className="w-[400px] h-auto mb-5"
       />

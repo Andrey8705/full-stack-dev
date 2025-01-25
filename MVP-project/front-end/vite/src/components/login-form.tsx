@@ -1,4 +1,3 @@
-import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -9,14 +8,49 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { useNavigate } from "react-router-dom"
+import { useState } from "react"
+import { saveTokens } from "../app/service/Service";
 
-export function LoginForm({
-  className,
-  ...props
-}: React.ComponentPropsWithoutRef<"div">) {
+
+const LoginForm = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+  
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    
+    const payload = {
+      email,
+      password,
+    };
+
+  try {
+    const response = await fetch("http://localhost:8000/api/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+
+    const data = await response.json();
+    if (response.ok) {
+      saveTokens(data.access_token, data.refresh_token);
+      navigate("/capsule-tutorial");
+    } else {
+      alert(`Error: ${data.message || "unknown error"}`);
+    }
+  }catch (error) {
+    console.error("An unexpected error occurred:", error);
+    }
+  };
   return (
-    <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <Card>
+    <div className="flex justify-center items-center h-screen p-4">
+      <img src="/public/logo.png" alt="logo" className="fixed top-auto left-auto opacity-10 -z-2 size-[60%] pointer-events-none" />
+      <Card className="rounded-xl border bg-black opacity-80 text-[#ffe4c4] shadow">
         <CardHeader>
           <CardTitle className="text-2xl">Login</CardTitle>
           <CardDescription>
@@ -24,7 +58,7 @@ export function LoginForm({
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form>
+          <form onSubmit={handleLogin}>
             <div className="flex flex-col gap-6">
               <div className="grid gap-2">
                 <Label htmlFor="email">Email</Label>
@@ -32,6 +66,8 @@ export function LoginForm({
                   id="email"
                   type="email"
                   placeholder="m@example.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   required
                 />
               </div>
@@ -45,18 +81,20 @@ export function LoginForm({
                     Forgot your password?
                   </a>
                 </div>
-                <Input id="password" type="password" required />
+                <Input 
+                id="password" 
+                type="password" 
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required />
               </div>
-              <Button type="submit" className="w-full">
+              <Button type="submit" className="bg-purple-500 text-white w-full">
                 Login
-              </Button>
-              <Button variant="outline" className="w-full">
-                Login with Google
               </Button>
             </div>
             <div className="mt-4 text-center text-sm">
               Don&apos;t have an account?{" "}
-              <a href="#" className="underline underline-offset-4">
+              <a href="#" className="underline underline-offset-4" onClick={() => navigate('/register')}>
                 Sign up
               </a>
             </div>
@@ -66,3 +104,5 @@ export function LoginForm({
     </div>
   )
 }
+
+export default LoginForm;

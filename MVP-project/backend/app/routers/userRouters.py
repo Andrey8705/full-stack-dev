@@ -46,10 +46,11 @@ def login_user(user: UserLogin, db: Session = Depends(get_db)):
     access_token = create_access_token({"sub": existing_user.email, "role": existing_user.role, "name": existing_user.name, "id": existing_user.id})
     refresh_token = create_refresh_token(existing_user.id, db)
     
-    return {
+    return JSONResponse(content={
+        "message": f"User {existing_user.name} successfully logged in",
         "access_token": access_token,
         "refresh_token": refresh_token
-    }
+    })
 
 @router.get("/admin/get/users/all")
 def get_users(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
