@@ -7,7 +7,7 @@ const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   const menuItems = [
-    { name: "Create capsule", icon: <CirclePlus />, path: "/" },
+    { name: "Create capsule", icon: <CirclePlus />, path: "/CreateCapsule" },
     { name: "Profile", icon: <User />, path: "/profile" },
     { name: "My capsules", icon: <Settings />, path: "/settings" },
   ];
