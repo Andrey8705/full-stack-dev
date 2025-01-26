@@ -1,0 +1,45 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "npm",
+			"script": "build",
+			"path": "front-end/front-end-102/lesson-11/orbital-orbit",
+			"group": "build",
+			"problemMatcher": [],
+			"label": "npm: build - front-end/front-end-102/lesson-11/orbital-orbit",
+			"detail": "astro build"
+		},
+		{
+			"label": "Запуск бекенда",
+			"type": "shell",
+			"command": "uvicorn main:app --reload",
+			"options": {
+				"cwd": "${workspaceFolder}/MVP-project/backend/app"
+			},
+			"problemMatcher": [],
+			"isBackground": true
+		},
+		{
+			"label": "Запуск фронтенда",
+			"type": "shell",
+			"command": "npm run dev",
+			"options": {
+				"cwd": "${workspaceFolder}/MVP-project/front-end/vite"
+			},
+			"problemMatcher": [],
+			"isBackground": true
+		},
+		{
+			"label": "Запуск всего приложения",
+			"dependsOn": ["Запуск бекенда", "Запуск фронтенда"],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"runOptions": {
+				"runOn": "default"
+			}
+		}
+	]
+}

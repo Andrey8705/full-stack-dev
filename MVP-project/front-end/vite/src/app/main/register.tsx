@@ -1,9 +1,11 @@
+import Footer from '@/components/Footer';
 import RegisterForm from '@/components/RegisterForm';
 
 const RegisterPage = () => {
   return (
-        <div className="flex mb-36 flex-col items-center w-max">
+        <div className="flex  flex-col items-center w-max">
             <RegisterForm />
+            <Footer />
         </div>
     );
 };

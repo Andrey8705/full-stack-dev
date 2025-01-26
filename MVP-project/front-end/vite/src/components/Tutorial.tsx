@@ -27,6 +27,11 @@ const Tutorial = () => {
           </div>
         </CardContent>
       </Card>
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-2xl text-center">1.</CardTitle>
+        </CardHeader>
+      </Card>
     </div>
   );
 };
