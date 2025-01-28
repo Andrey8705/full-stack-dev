@@ -39,7 +39,7 @@ const LoginForm = () => {
     const data = await response.json();
     if (response.ok) {
       saveTokens(data.access_token, data.refresh_token);
-      navigate("/capsule-tutorial");
+      navigate("/capsule-storage");
     } else {
       alert(`Error: ${data.message || "unknown error"}`);
     }

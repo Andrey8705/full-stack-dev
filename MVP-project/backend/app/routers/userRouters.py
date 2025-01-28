@@ -25,7 +25,7 @@ def register_user(user: UserRegister, db: Session = Depends(get_db)):
 
     existing_user = db.query(User).filter(User.email == user.email).first()
     if existing_user:
-        raise HTTPException(status_code=400, detail="Email already registered")
+        return JSONResponse(status_code=400, content={"message": "email already registered"})
     if len(user.password) < 6:
         return JSONResponse(content={"error": "Password too short"})
 
@@ -41,7 +41,7 @@ def login_user(user: UserLogin, db: Session = Depends(get_db)):
 
     existing_user = db.query(User).filter(User.email == user.email).first()
     if not existing_user or not bcrypt.checkpw(user.password.encode('utf-8'), existing_user.password.encode('utf-8')):
-        raise HTTPException(status_code=400, detail="Invalid email or password")
+        return JSONResponse(status_code=400, content={"message": "Incorrect email or password"})
     
     access_token = create_access_token({"sub": existing_user.email, "role": existing_user.role, "name": existing_user.name, "id": existing_user.id})
     refresh_token = create_refresh_token(existing_user.id, db)

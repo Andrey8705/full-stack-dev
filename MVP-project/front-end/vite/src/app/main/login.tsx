@@ -1,9 +1,11 @@
+import Footer from "@/components/Footer";
 import LoginForm from "@/components/login-form";
 
 const LoginPage = () => {
   return (
-        <div className="flex mb-36 flex-col items-center w-max">
+        <div className="flex flex-col items-center w-max">
             <LoginForm/>
+            <Footer/>
         </div>
     );
 };
