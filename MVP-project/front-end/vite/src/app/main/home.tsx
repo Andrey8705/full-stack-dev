@@ -6,16 +6,9 @@ export default function Home() {
   return (
     
     <div>
-        <div className="flex mb-36 flex-col items-center w-max max-w-sm">
-            <HeroSection/>
-        </div>
-        <div className="flex  flex-col items-center w-max max-w-sm">
-            <Features/>
-        </div>
-        <div className="flex  flex-col content-center items-center">
-            <Footer/>
-        </div>
-      
+      <HeroSection/>
+      <Features/>
+      <Footer/>
     </div>
   )
 }
