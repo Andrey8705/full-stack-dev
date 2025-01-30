@@ -3,10 +3,10 @@ import RegisterForm from '@/components/RegisterForm';
 
 const RegisterPage = () => {
   return (
-        <div className="flex  flex-col items-center w-max">
-            <RegisterForm />
-            <Footer />
-        </div>
+    <div>
+        <RegisterForm />
+        <Footer />
+    </div>
     );
 };
 

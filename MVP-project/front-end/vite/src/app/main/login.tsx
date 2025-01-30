@@ -3,7 +3,7 @@ import LoginForm from "@/components/login-form";
 
 const LoginPage = () => {
   return (
-        <div className="flex flex-col items-center w-max">
+        <div>
             <LoginForm/>
             <Footer/>
         </div>
