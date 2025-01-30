@@ -4,6 +4,7 @@ import Home from './app/main/home';
 import Register from './app/main/register';
 import LoginPage from './app/main/login';
 import CapsuleStorageContainer from './app/main/CapsuleStorageContainer';
+import CreateCapsule from './app/main/CreateCapsule';
 
 const App: React.FC = () => {
   return (
@@ -12,7 +13,8 @@ const App: React.FC = () => {
         <Route path="/" element={<Home />} />
         <Route path="/register" element={<Register/>} />
         <Route path="/login" element={<LoginPage/>} />
-        <Route path='/capsule-storage' element={<CapsuleStorageContainer />} />
+        <Route path="/capsule-storage" element={<CapsuleStorageContainer />} />
+        <Route path="/CreateCapsule" element={<CreateCapsule />} />
       </Routes>
     </BrowserRouter>
   );
