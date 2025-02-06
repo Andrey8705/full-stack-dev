@@ -1,0 +1,21 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import Navbar from '../components/Navbar.astro';
+---
+
+<MainLayout title="Home - My Portfolio">
+  <div class="shimmer-bg"></div>
+  <Navbar />
+
+  <section class="flex flex-col items-center justify-center h-screen text-center px-4">
+    <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight">
+      Привет, я <span class="text-cyan-400">Андрей</span>
+    </h1>
+    <p class="mt-4 text-lg sm:text-xl md:text-2xl max-w-xl sm:max-w-2xl">
+      Full-Stack разработчик, создающий современные и интерактивные веб-приложения.
+    </p>
+    <a href="/projects" class="mt-8 px-6 py-3 bg-cyan-500 hover:bg-cyan-400 text-black rounded-full shadow-md transition">
+      Посмотреть проекты
+    </a>
+  </section>
+</MainLayout>
