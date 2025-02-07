@@ -1,0 +1,39 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import Navbar from '../components/Navbar.astro';
+
+---
+
+<MainLayout title="Капсула времени">
+  <Navbar />
+
+  <section class="max-w-4xl mx-auto px-4 py-20">
+    <h1 class="text-4xl md:text-5xl font-bold text-center mb-8">Капсула времени</h1>
+
+    <p class="text-lg leading-7 mb-6">
+      Проект <strong>"Капсула времени"</strong> — это веб-приложение, которое позволяет пользователям создавать и сохранять личные сообщения, которые будут доступны в будущем.
+      Идея заключается в том, чтобы зафиксировать важные моменты жизни, чтобы вернуться к ним через определённый период времени.
+    </p>
+
+    <div class="mb-6">
+      <h2 class="text-2xl font-semibold mb-2">Основные функции:</h2>
+      <ul class="list-disc pl-5 space-y-1">
+        <li>Создание "капсул времени" с личными сообщениями.</li>
+        <li>Установка даты для автоматического открытия капсулы в будущем.</li>
+        <li>Секурность данных с использованием авторизации и токенов.</li>
+        <li>Интуитивно понятный и адаптивный интерфейс.</li>
+      </ul>
+    </div>
+
+    <div class="mb-6">
+      <h2 class="text-2xl font-semibold mb-2">Технологии:</h2>
+      <div class="flex flex-wrap gap-2">
+        <span class="px-3 py-1 bg-cyan-600 text-white text-sm rounded">React</span>
+        <span class="px-3 py-1 bg-cyan-600 text-white text-sm rounded">TypeScript</span>
+        <span class="px-3 py-1 bg-cyan-600 text-white text-sm rounded">Vite</span>
+        <span class="px-3 py-1 bg-cyan-600 text-white text-sm rounded">Tailwind CSS</span>
+        <span class="px-3 py-1 bg-cyan-600 text-white text-sm rounded">Python (Backend)</span>
+      </div>
+    </div>
+  </section>
+</MainLayout>

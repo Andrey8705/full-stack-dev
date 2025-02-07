@@ -1,0 +1,51 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import Navbar from '../components/Navbar.astro';
+---
+
+<MainLayout title="Обо мне">
+  <Navbar />
+
+  <section class="max-w-4xl mx-auto px-4 py-20">
+    <h1 class="text-4xl md:text-5xl font-bold text-center mb-10">Обо мне</h1>
+
+    <p class="text-lg leading-7 mb-6">
+      Я — Full-Stack разработчик, увлечённый созданием современных, производительных и надёжных веб-приложений. 
+      Моя цель — разрабатывать решения, которые сочетают в себе удобный интерфейс и надёжную серверную архитектуру.
+    </p>
+
+    <div class="mb-8">
+      <h2 class="text-2xl font-semibold mb-2">Навыки</h2>
+      <ul class="list-disc pl-5 space-y-1">
+        <li>Frontend: HTML, CSS, TypeScript, React, Astro, Tailwind CSS, Vite</li>
+        <li>Backend: Python, FastAPI, Node.js, REST API, работа с базами данных (PostgreSQL, SQLite)</li>
+        <li>Интеграция: JWT, OAuth</li>
+        <li>DevOps: NGINX, Git</li>
+      </ul>
+    </div>
+
+    <div class="mb-8">
+      <h2 class="text-2xl font-semibold mb-2">Опыт</h2>
+      <p>
+        Разрабатывал веб-приложения с использованием стеков React и Astro на фронтенде, а также Python на бэкенде. 
+        Опыт работы с REST API, управлением базами данных и настройкой серверной инфраструктуры. 
+        Большую часть времени занимаюсь разработкой своего web-приложения Time Capsule.
+      </p>
+    </div>
+
+    <div class="mb-8">
+      <h2 class="text-2xl font-semibold mb-2">Планы</h2>
+      <p>
+        Планирую углубить знания в разработке микросервисной архитектуры, освоить GraphQL и углубиться в DevOps-инструменты для автоматизации процессов. 
+        Также интересуюсь разработкой облачных решений и повышением безопасности веб-приложений.
+      </p>
+    </div>
+
+    <div>
+      <h2 class="text-2xl font-semibold mb-2">Образование</h2>
+      <p>
+        С октября 2024 года обучаюсь в школе OWLMasters по специальности Full-Stack разработчик.
+      </p>
+    </div>
+  </section>
+</MainLayout
