@@ -2,7 +2,7 @@ from fastapi.responses import JSONResponse
 from models.capsuleBaseModel import CapsuleCreate
 from database.db_setup import get_db
 from sqlalchemy.orm import Session
-from fastapi import APIRouter, HTTPException, Depends
+from fastapi import APIRouter, Depends
 from datetime import datetime
 from models.capsuleBase import Capsule
 from fastapi.security import OAuth2PasswordBearer
@@ -13,8 +13,12 @@ router = APIRouter()
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
 
-@router.post ("/capsule/create-capsule/")
-def create_capsule(capsule: CapsuleCreate, db: Session = Depends(get_db), token: str = Depends(oauth2_scheme)):
+@router.post("/capsule/create-capsule/")
+def create_capsule(
+    capsule: CapsuleCreate, 
+    db: Session = Depends(get_db), 
+    token: str = Depends(oauth2_scheme)
+):
     user_data = verify_acces_token(token)
     create_date_now = datetime.utcnow()
 
@@ -23,24 +27,36 @@ def create_capsule(capsule: CapsuleCreate, db: Session = Depends(get_db), token:
     except ValueError:
         return JSONResponse(
             status_code=400,
-            detail="Invalid date format or invalid date. Use ('2025-01-20')."
+            content={"message": "Invalid date format. Use 'YYYY-MM-DD'."}
         )
 
-    if open_date <= create_date_now:
-        return JSONResponse(status_code=400,detail="Open date can't be < created date")
+    if open_date < create_date_now:
+        return JSONResponse(
+            status_code=401,
+            content={"message": "Open date can't be earlier than today."}
+        )
 
     new_capsule = Capsule(
-        name = capsule.name,
-        create_date = create_date_now,
-        unlock_date = datetime.strptime(capsule.unlock_date, "%Y-%m-%d"),
-        message = capsule.message,
-        user_id = user_data["id"]
+        name=capsule.name,
+        create_date=create_date_now,
+        unlock_date=open_date,
+        message=capsule.message,
+        user_id=user_data["id"]
     )
+
     time_to_open = (new_capsule.unlock_date - new_capsule.create_date).days
+
     db.add(new_capsule)
     db.commit()
     db.refresh(new_capsule)    
-    return JSONResponse({"message": f"Capsule {new_capsule.name} successfuly created. {time_to_open} days before opening the capsule"})
+
+    return JSONResponse(
+        status_code=201,
+        content={
+            "message": f"Capsule '{new_capsule.name}' successfully created.",
+            "days_until_open": time_to_open
+        }
+    )
 
 @router.get("/admin/get/capsule/all")
 def get_capsules(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
