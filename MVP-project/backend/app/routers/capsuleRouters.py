@@ -32,7 +32,7 @@ def create_capsule(
 
     if open_date < create_date_now:
         return JSONResponse(
-            status_code=401,
+            status_code=422,
             content={"message": "Open date can't be earlier than today."}
         )
 
