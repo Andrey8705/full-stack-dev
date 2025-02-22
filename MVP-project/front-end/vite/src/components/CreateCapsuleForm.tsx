@@ -23,6 +23,9 @@ const CreateCapsuleForm = () => {
       setMessage("");
       setUnlockDate("");
     }
+    else if (response.status === 422) {
+      alert("The capsule opening date cannot be less than the current date.");
+    }
   };
 
   return (
