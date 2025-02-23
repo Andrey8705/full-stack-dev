@@ -3,7 +3,7 @@ import { CirclePlus, User, Settings, Menu, LogOut, Laugh } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Sidebar = () => {
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(true);
   const [user, setUser] = useState<{ avatar: string; email: string } | null>(null);
 
   useEffect(() => {
@@ -28,7 +28,7 @@ const Sidebar = () => {
   ];
 
   return (
-    <div className={`h-screen bg-gray-900 text-white ${isCollapsed ? "w-16" : "w-64"} fixed left-0 top-0 transition-all duration-300 p-4 flex flex-col`}>
+    <div className={`h-screen bg-gray-900 text-white ${isCollapsed ? "w-14 sm:w-16" : "w-48 sm:w-64"} fixed left-0 top-0 transition-all duration-300 p-4 flex flex-col`}>
       <button
         onClick={() => setIsCollapsed(!isCollapsed)}
         className="p-2 rounded-lg bg-gray-700 hover:bg-gray-600 flex items-center justify-center"
