@@ -34,7 +34,7 @@ const CreateCapsuleForm = () => {
 
         <form
             onSubmit={handleSubmit}
-            className="flex flex-col items-center gap-4 mt-5 min-w-[80vh] p-6 rounded-xl border border-[#f5deb3] bg-gradient-to-br from-gray-900 to-black opacity-90 text-[#ffe4c4] shadow-lg"
+            className="flex flex-col items-center gap-4 mt-5 min-w-[30vh] p-6 rounded-xl border border-[#f5deb3] bg-gradient-to-br from-gray-900 to-black opacity-90 text-[#ffe4c4] shadow-lg"
         >
             {/* Title Input */}
             <input
