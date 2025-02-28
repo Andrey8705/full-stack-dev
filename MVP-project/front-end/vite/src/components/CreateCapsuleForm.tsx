@@ -34,13 +34,13 @@ const CreateCapsuleForm = () => {
 
         <form
             onSubmit={handleSubmit}
-            className="flex flex-col items-center gap-4 mt-5 min-w-[30vh] p-6 rounded-xl border border-[#f5deb3] bg-gradient-to-br from-gray-900 to-black opacity-90 text-[#ffe4c4] shadow-lg"
+            className="flex flex-col w-[57vh] bg-[url('/public/logo.png')] bg-center bg-size bg-no-repeat items-center gap-4 mt-5 rounded-full p-6 border border-[#f5deb3] from-gray-900 to-black opacity-90 text-[#ffe4c4] shadow-lg"
         >
             {/* Title Input */}
             <input
             type="text"
             placeholder="Title"
-            className="w-full p-3 rounded-lg bg-[#2b2b2b] text-white text-center placeholder-gray-400 focus:ring-2 focus:ring-[#f5deb3] outline-none transition-all"
+            className="w-40 p-3 rounded-t-3xl bg-[#efecec67] text-black text-center placeholder-black focus:ring-2 focus:ring-[#f5deb3] outline-none transition-all"
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
@@ -49,17 +49,17 @@ const CreateCapsuleForm = () => {
             {/* Message Input */}
             <textarea
             placeholder="Message"
-            className="w-full h-28 p-3 rounded-lg bg-[#2b2b2b] text-white text-center placeholder-gray-400 focus:ring-2 focus:ring-[#f5deb3] outline-none transition-all resize-none"
+            className="w-60 h-28 p-3 rounded-xl bg-[#efecec67] text-black text-center placeholder-black focus:ring-2 focus:ring-[#f5deb3] outline-none transition-all resize-none"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             required
             />
 
             {/* Date Picker */}
-            <h2 className="text-lg font-semibold">Unlock Date</h2>
+            <h2 className="text-lg text-black bg-white font-semibold">Unlock Date</h2>
             <input
             type="date"
-            className="w-full p-3 rounded-lg bg-[#2b2b2b] text-white text-center placeholder-gray-400 focus:ring-2 focus:ring-[#f5deb3] outline-none transition-all"
+            className="w-60 p-3 rounded-xl bg-[#efecec67] text-black text-center placeholder-black focus:ring-2 focus:ring-[#f5deb3] outline-none transition-all"
             value={unlock_date}
             onChange={(e) => setUnlockDate(e.target.value)}
             required
@@ -68,7 +68,7 @@ const CreateCapsuleForm = () => {
             {/* Submit Button */}
             <button
             type="submit"
-            className="w-full p-3 rounded-lg bg-[#f5deb3] text-black font-semibold uppercase tracking-wide hover:bg-[#ffe4c4] transition-all shadow-md"
+            className="w-28 p-3 rounded-b-3xl bg-[#f5deb3] text-black font-semibold uppercase tracking-wide hover:bg-[#ffe4c4] transition-all shadow-md"
             >
             Create Capsule
             </button>
