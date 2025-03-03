@@ -40,7 +40,7 @@ const CreateCapsuleForm = () => {
             <input
             type="text"
             placeholder="Title"
-            className="w-40 p-3 rounded-t-3xl bg-[#efecec67] text-black text-center placeholder-black focus:ring-2 focus:ring-[#f5deb3] outline-none transition-all"
+            className="w-40 p-3 rounded-t-3xl bg-[#f5deb3cf] text-black text-center placeholder-black focus:ring-2 focus:ring-[#f5deb3] outline-none transition-all"
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
@@ -49,7 +49,7 @@ const CreateCapsuleForm = () => {
             {/* Message Input */}
             <textarea
             placeholder="Message"
-            className="w-60 h-28 p-3 rounded-xl bg-[#efecec67] text-black text-center placeholder-black focus:ring-2 focus:ring-[#f5deb3] outline-none transition-all resize-none"
+            className="w-60 h-28 p-3 rounded-xl bg-[#f5deb3cf] text-black text-center placeholder-black focus:ring-2 focus:ring-[#f5deb3] outline-none transition-all resize-none"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             required
@@ -59,7 +59,7 @@ const CreateCapsuleForm = () => {
             <h2 className="text-lg text-black bg-white font-semibold">Unlock Date</h2>
             <input
             type="date"
-            className="w-60 p-3 rounded-xl bg-[#efecec67] text-black text-center placeholder-black focus:ring-2 focus:ring-[#f5deb3] outline-none transition-all"
+            className="w-60 p-3 rounded-xl bg-[#f5deb3cf] text-black text-center placeholder-black focus:ring-2 focus:ring-[#f5deb3] outline-none transition-all"
             value={unlock_date}
             onChange={(e) => setUnlockDate(e.target.value)}
             required
