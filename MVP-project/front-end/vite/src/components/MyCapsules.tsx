@@ -6,6 +6,7 @@ interface Capsule {
   name: string;
   create_date: string;
   unlock_date: string;
+  message?: string;
 }
 
 const MyCapsules = () => {
@@ -37,6 +38,9 @@ const parsedDate = Date.parse(dateString);
                   <h2 className="text-xl font-semibold mb-2">Title: {capsule.name}</h2>
                   <p className="text-gray-300">Created at: {new Date(capsule.create_date).toLocaleDateString()}</p>
                   <p className="text-gray-300">Unlock date: {formatDate(capsule.unlock_date)}</p>
+                  {capsule.message && (
+        <p className="mt-2 text-lg text-[#ffd700]">Message: {capsule.message}</p>
+      )}
                 </li>
               ))}
             </ul>

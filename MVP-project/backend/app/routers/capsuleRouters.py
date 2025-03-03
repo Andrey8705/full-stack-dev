@@ -66,6 +66,7 @@ def get_capsules(token: str = Depends(oauth2_scheme), db: Session = Depends(get_
     check_user_role(user_data, "admin")
 
     capsules = db.query(Capsule).all()
+    
 
     return capsules
 
@@ -75,6 +76,10 @@ def get_my_capsules(db: Session = Depends(get_db), user_id: int = 1):  # user_id
     
     if not capsules:
         raise HTTPException(status_code=404, detail="Капсулы не найдены")
+
+    for capsule in capsules:
+        if capsule.unlock_date > datetime.utcnow():
+            capsule.message = ""
 
     return capsules
 
