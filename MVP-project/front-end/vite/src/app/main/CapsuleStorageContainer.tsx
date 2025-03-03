@@ -1,4 +1,5 @@
 import Footer from "@/components/Footer";
+import MyCapsules from "@/components/MyCapsules";
 import Sidebar from "@/components/Sidebar";
 
 const CapsuleStorageContainer = () => {
@@ -8,6 +9,7 @@ const CapsuleStorageContainer = () => {
                 <Sidebar/>
             </div>
             <div className="flex flex-col items-center w-full flex-none h-full">
+                <MyCapsules/>
                 <div className="grow"></div>
                 <div className="flex-none">
                     <Footer/>

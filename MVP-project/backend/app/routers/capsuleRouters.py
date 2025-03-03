@@ -1,12 +1,14 @@
+from typing import List
 from fastapi.responses import JSONResponse
-from models.capsuleBaseModel import CapsuleCreate
+from models.capsuleBaseModel import CapsuleCreate, CapsuleSchema
 from database.db_setup import get_db
 from sqlalchemy.orm import Session
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from datetime import datetime
 from models.capsuleBase import Capsule
 from fastapi.security import OAuth2PasswordBearer
-from functions.mainLogic import verify_acces_token, check_user_role, check_user_and_capsule_user_id
+from models.userBase import User
+from functions.mainLogic import verify_acces_token, check_user_role, check_user_and_capsule_user_id, get_current_user
 
 
 router = APIRouter()
@@ -58,13 +60,23 @@ def create_capsule(
         }
     )
 
-@router.get("/admin/get/capsule/all")
+@router.get("/admin/get/capsule/all", response_model=List[CapsuleSchema])
 def get_capsules(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
     user_data = verify_acces_token(token)
     check_user_role(user_data, "admin")
+
     capsules = db.query(Capsule).all()
 
-    return JSONResponse(capsules)
+    return capsules
+
+@router.get("/capsule/capsules/my", response_model=List[CapsuleSchema])
+def get_my_capsules(db: Session = Depends(get_db), user_id: int = 1):  # user_id потом заменишь на текущего пользователя
+    capsules = db.query(Capsule).filter(Capsule.user_id == user_id).all()
+    
+    if not capsules:
+        raise HTTPException(status_code=404, detail="Капсулы не найдены")
+
+    return capsules
 
 @router.get("/admin/get/capsule/{id}")
 def get_capsule_by_id(id : int, token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):

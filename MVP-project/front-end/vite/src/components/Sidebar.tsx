@@ -24,7 +24,7 @@ const Sidebar = () => {
   const menuItems = [
     { name: "Create capsule", icon: <CirclePlus />, path: "/CreateCapsule" },
     { name: "Profile", icon: <User />, path: "/profile" },
-    { name: "My capsules", icon: <Settings />, path: "/settings" },
+    { name: "My capsules", icon: <Settings />, path: "/My-Capsules" },
   ];
 
   return (
