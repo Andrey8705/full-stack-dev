@@ -7,13 +7,13 @@ class CapsuleCreate(BaseModel):
     message: str = Field(description= "Короткое сообщение для получателя.")
 
 
-class CapsuleSchema(BaseModel):  # ⬅ Добавляем Pydantic-модель
+class CapsuleSchema(BaseModel):
     id: int
     name: str
     unlock_date: datetime
     message: str
     user_id: int
-    create_date: datetime  # ⬅ Pydantic сам преобразует в ISO 8601
+    create_date: datetime 
 
     class Config:
-        from_attributes = True  # ⬅ Позволяет использовать SQLAlchemy-объекты
+        from_attributes = True  # Позволяет использовать SQLAlchemy-объекты
