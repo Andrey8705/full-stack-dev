@@ -7,7 +7,6 @@ from fastapi import APIRouter, Depends, HTTPException
 from datetime import datetime
 from models.capsuleBase import Capsule
 from fastapi.security import OAuth2PasswordBearer
-from models.userBase import User
 from functions.mainLogic import verify_acces_token, check_user_role, check_user_and_capsule_user_id, get_current_user
 
 
@@ -71,7 +70,9 @@ def get_capsules(token: str = Depends(oauth2_scheme), db: Session = Depends(get_
     return capsules
 
 @router.get("/capsule/capsules/my", response_model=List[CapsuleSchema])
-def get_my_capsules(db: Session = Depends(get_db), user_id: int = 1):  # user_id потом заменишь на текущего пользователя
+def get_my_capsules(db: Session = Depends(get_db), token: str = Depends(oauth2_scheme)):
+    user_data = get_current_user(token, db)
+    user_id = user_data.id
     capsules = db.query(Capsule).filter(Capsule.user_id == user_id).all()
     
     if not capsules:
