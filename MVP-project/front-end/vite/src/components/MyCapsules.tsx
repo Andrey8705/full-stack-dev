@@ -19,17 +19,17 @@ const MyCapsules = () => {
   }, []);
 
 const formatDate = (dateString: string | undefined) => {
-  if (!dateString) return "Неизвестная дата";
+  if (!dateString) return "Undefined date";
 
 const parsedDate = Date.parse(dateString);
-  if (isNaN(parsedDate)) return "Неверный формат даты";
+  if (isNaN(parsedDate)) return "Invalid date";
 
   return new Date(parsedDate).toLocaleDateString();
 };
 
   return (
     <div className="flex flex-col items-center mt-10">
-      <h1 className="text-3xl font-bold text-[#f5deb3]">Мои капсулы</h1>
+      <h1 className="text-3xl font-bold text-[#f5deb3]">My capsules</h1>
         <div className="flex flex-col w-[57vh] bg-center bg-size bg-no-repeat items-center gap-4 mt-5 rounded-full p-6 from-gray-900 to-black opacity-90 text-[#ffe4c4]">
           {capsules.length > 0 ? (
             <ul className="text-left">
@@ -45,7 +45,7 @@ const parsedDate = Date.parse(dateString);
               ))}
             </ul>
           ) : (
-            <p>Нет капсул</p>
+            <p>You don't have capsules</p>
           )}
       </div>
     </div>
