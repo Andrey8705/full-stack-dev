@@ -1,8 +1,9 @@
+import { authFetch } from "@/app/service/AuthFetch";
 
 
 const CapsuleStorage = async () => {
 
-    await fetch("http://127.0.0.1:8000/api/admin/get/capsule/all", {
+    await authFetch("http://127.0.0.1:8000/api/admin/get/capsule/all", {
       method: "GET",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${localStorage.getItem("access_token")}` }
     });

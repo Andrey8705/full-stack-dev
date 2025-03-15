@@ -1,4 +1,5 @@
 import {jwtDecode} from "jwt-decode";
+import { authFetch } from "./AuthFetch";
 
 export const saveTokens = (accessToken: string, refreshToken: string) => {
     localStorage.setItem("access_token", accessToken);
@@ -48,7 +49,7 @@ export const getMyCapsules = async () => {
       throw new Error("Токен не найден");
     }
 
-    const response = await fetch("http://localhost:8000/api/capsule/capsules/my", {
+    const response = await authFetch("http://localhost:8000/api/capsule/capsules/my", {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
     });

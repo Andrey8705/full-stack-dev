@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { CirclePlus, User, Settings, Menu, LogOut, Laugh } from "lucide-react";
 import { Link } from "react-router-dom";
+import { authFetch } from "@/app/service/AuthFetch";
 
 const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(true);
@@ -11,7 +12,7 @@ const Sidebar = () => {
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     } else {
-      fetch("http://localhost:8000/api/me", {
+      authFetch("http://localhost:8000/api/me", {
         method: "GET",
         headers: { Authorization: `Bearer ${localStorage.getItem("access_token")}` },
       })

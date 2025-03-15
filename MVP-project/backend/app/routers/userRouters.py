@@ -97,13 +97,23 @@ def delete_user(id: int, token: str = Depends(oauth2_scheme), db: Session = Depe
     return {"message": f"{user.name} successfully deleted"}
 
 @router.get("/me")
-def get_current_user(token: str = Depends(oauth2_scheme)):
+def get_current_user(
+    token: str = Depends(oauth2_scheme),
+    db: Session = Depends(get_db)
+):
     user_data = verify_acces_token(token)
+    user_id = user_data.get("id")
+
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
     return {
-        "email": user_data["sub"],
-        "name": user_data["name"],
-        "role": user_data["role"]
+        "email": user.email,
+        "name": user.name,
+        "role": user.role
     }
+
 
 @router.post("/auth/refresh")
 def refresh_access_token(refresh_token: str, db: Session = Depends(get_db)):

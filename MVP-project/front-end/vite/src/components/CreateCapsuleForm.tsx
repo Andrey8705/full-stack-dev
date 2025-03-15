@@ -1,3 +1,4 @@
+import { authFetch } from "@/app/service/AuthFetch";
 import { useState } from "react";
 
 const CreateCapsuleForm = () => {
@@ -11,7 +12,7 @@ const CreateCapsuleForm = () => {
     const newCapsule = { name, message, unlock_date, createdAt: new Date().toISOString() };
 
     // Отправка данных на сервер
-    const response = await fetch("http://127.0.0.1:8000/api/capsule/create-capsule/", {
+    const response = await authFetch("http://127.0.0.1:8000/api/capsule/create-capsule/", {
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${localStorage.getItem("access_token")}` },
       body: JSON.stringify(newCapsule),
