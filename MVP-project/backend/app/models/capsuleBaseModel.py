@@ -1,3 +1,4 @@
+import uuid
 from pydantic import BaseModel, Field
 from datetime import datetime
 
@@ -8,7 +9,7 @@ class CapsuleCreate(BaseModel):
 
 
 class CapsuleSchema(BaseModel):
-    id: int
+    id: uuid.UUID
     name: str
     unlock_date: datetime
     message: str
