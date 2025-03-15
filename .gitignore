@@ -4,3 +4,4 @@ __pycache__/
 database.db
 .idea/
 db.sql
+node_modules/

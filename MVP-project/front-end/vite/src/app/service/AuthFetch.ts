@@ -36,7 +36,7 @@ export const authFetch = async (
     },
   });
 
-  // Если всё же получили 401 — возможно токен отозван → пробуем обновить и повторить
+  // Если получаем 401, пробуем обновить и повторить
   if (response.status === 401 && refreshToken) {
     console.warn("Received 401. Trying to refresh and retry...");
 
@@ -53,8 +53,6 @@ export const authFetch = async (
     } else {
       console.error("Refresh token failed. Logging out...");
       clearTokens();
-      // Можно редиректить:
-      // window.location.href = "/login";
     }
   }
 
