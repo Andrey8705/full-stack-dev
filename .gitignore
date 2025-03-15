@@ -5,3 +5,4 @@ database.db
 .idea/
 db.sql
 node_modules/
+.env
