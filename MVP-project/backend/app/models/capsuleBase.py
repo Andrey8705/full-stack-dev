@@ -2,10 +2,11 @@ from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 from datetime import datetime
 from sqlalchemy.orm import relationship
 from models.base import Base
+import uuid
 
 class Capsule(Base):
     __tablename__ = "capsules"
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()), unique=True, index=True)
     name = Column(String, nullable=False)
     unlock_date = Column(DateTime, nullable=False)
     message = Column(String, nullable=False)
