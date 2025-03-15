@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { CirclePlus, User, Settings, Menu, LogOut, Laugh } from "lucide-react";
+import { CirclePlus, User, Sparkles, Menu, LogOut, Laugh } from "lucide-react";
 import { Link } from "react-router-dom";
 import { authFetch } from "@/app/service/AuthFetch";
 
@@ -25,7 +25,7 @@ const Sidebar = () => {
   const menuItems = [
     { name: "Create capsule", icon: <CirclePlus />, path: "/CreateCapsule" },
     { name: "Profile", icon: <User />, path: "/profile" },
-    { name: "My capsules", icon: <Settings />, path: "/My-Capsules" },
+    { name: "My capsules", icon: <Sparkles />, path: "/My-Capsules" },
   ];
 
   return (

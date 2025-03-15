@@ -6,7 +6,7 @@ import {
   clearTokens,
 } from "./Service";
 
-const API_BASE_URL = "http://localhost:8000/api";
+const API_BASE_URL = "http://localhost:8000/";
 
 export const authFetch = async (
   input: RequestInfo,

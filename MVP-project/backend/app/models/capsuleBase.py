@@ -13,4 +13,4 @@ class Capsule(Base):
     user_id = Column(Integer, ForeignKey("users.id"))
     user = relationship("User", back_populates="capsules")
     create_date = Column(DateTime, default=datetime.utcnow)
-    is_public = Column(Boolean, default=False)
+    is_public = Column(Boolean, default=True)
