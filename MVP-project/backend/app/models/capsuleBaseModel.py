@@ -1,6 +1,6 @@
-import uuid
 from pydantic import BaseModel, Field
 from datetime import datetime
+from uuid import UUID
 
 class CapsuleCreate(BaseModel):
     name: str = Field(description= "Название капсулы")
@@ -9,12 +9,13 @@ class CapsuleCreate(BaseModel):
 
 
 class CapsuleSchema(BaseModel):
-    id: uuid.UUID
+    id: UUID
     name: str
     unlock_date: datetime
     message: str
     user_id: int
-    create_date: datetime 
+    create_date: datetime
 
-    class Config:
-        from_attributes = True  # Позволяет использовать SQLAlchemy-объекты
+    model_config = {
+        "from_attributes": True  # это как orm_mode в Pydantic 1
+    } 
