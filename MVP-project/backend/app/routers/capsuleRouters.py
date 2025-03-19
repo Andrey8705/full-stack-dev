@@ -1,5 +1,6 @@
 from typing import List
 from fastapi.responses import JSONResponse
+from uuid import UUID
 from models.capsuleBaseModel import CapsuleCreate, CapsuleSchema
 from database.db_setup import get_db
 from sqlalchemy.orm import Session
@@ -85,7 +86,7 @@ def get_my_capsules(db: Session = Depends(get_db), token: str = Depends(oauth2_s
     return capsules
 
 @router.get("/admin/get/capsule/{id}")
-def get_capsule_by_id(id : int, token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
+def get_capsule_by_id_admin(id : int, token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
     user_data =  verify_acces_token(token)
     capsule = db.query(Capsule).filter(Capsule.id == id).first()
     if not capsule:
@@ -94,6 +95,21 @@ def get_capsule_by_id(id : int, token: str = Depends(oauth2_scheme), db: Session
     check_user_and_capsule_user_id(user_data["id"], capsule.user_id)
 
     return JSONResponse(capsule)
+
+@router.get("/capsule/{capsule_id}", response_model=CapsuleSchema)
+def get_capsule_by_id(capsule_id: UUID, db: Session = Depends(get_db)):
+    capsule = db.query(Capsule).filter(Capsule.id == str(capsule_id)).first()
+    if not capsule:
+        raise HTTPException(status_code=404, detail="Капсула не найдена")
+    
+    if capsule.unlock_date > datetime.utcnow():
+        capsule.message = ""
+    
+    #if not capsule.is_public:
+    #    raise HTTPException(status_code=403, detail="Капсула недоступна для просмотра")
+
+    return capsule
+
 
 @router.delete("/admin/delete/capsule/{id}")
 def delete_capsule(id: int, token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
