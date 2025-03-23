@@ -102,11 +102,13 @@ def get_capsule_by_id(capsule_id: UUID, db: Session = Depends(get_db)):
     if not capsule:
         raise HTTPException(status_code=404, detail="Капсула не найдена")
     
+    if capsule.is_public == 0:
+       raise HTTPException(status_code=403, detail="Капсула недоступна для просмотра")
+    
+    print(capsule.is_public)
+    
     if capsule.unlock_date > datetime.utcnow():
         capsule.message = ""
-    
-    #if not capsule.is_public:
-    #    raise HTTPException(status_code=403, detail="Капсула недоступна для просмотра")
 
     return capsule
 
