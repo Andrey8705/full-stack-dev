@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getMyCapsules } from "../app/service/Service.ts";
+import { Button } from "./ui/button.tsx";
 
 interface Capsule {
   id: number;
@@ -7,7 +8,9 @@ interface Capsule {
   create_date: string;
   unlock_date: string;
   message?: string;
+  is_public: boolean;
 }
+
 
 const MyCapsules = () => {
   const [capsules, setCapsules] = useState<Capsule[]>([]);
@@ -18,6 +21,16 @@ const MyCapsules = () => {
     });
   }, []);
 
+const copyToClipboard = async (id: number) => {
+  try {
+    const url = `http://localhost:5173/capsule/${id}`;
+    await navigator.clipboard.writeText(url);
+      return "Copied:" + url;
+  } catch (err) {
+      return"Failed to copy:" + err;
+  }
+};
+
 const formatDate = (dateString: string | undefined) => {
   if (!dateString) return "Undefined date";
 
@@ -25,7 +38,10 @@ const parsedDate = Date.parse(dateString);
   if (isNaN(parsedDate)) return "Invalid date";
 
   return new Date(parsedDate).toLocaleDateString();
+
 };
+
+
 
   return (
     <div className="flex flex-col items-center mt-10">
@@ -38,9 +54,14 @@ const parsedDate = Date.parse(dateString);
                   <h2 className="text-xl font-semibold mb-2">Title: {capsule.name}</h2>
                   <p className="text-gray-300">Created at: {new Date(capsule.create_date).toLocaleDateString()}</p>
                   <p className="text-gray-300">Unlock date: {formatDate(capsule.unlock_date)}</p>
-                  {capsule.message && (
-        <p className="mt-2 text-lg text-[#ffd700]">Message: {capsule.message}</p>
-      )}
+                  {capsule.message && ( <p className="mt-2 text-lg text-[#ffd700]">Message: {capsule.message}</p>)}
+                  <p className="text-gray-300">Public: {capsule.is_public === (true) ? "Yes" : "No"}</p>
+                  <Button
+                  type="button"
+                  onClick={() => copyToClipboard(capsule.id)}
+                  className="bg-purple-500 text-white">
+                  Copy Link
+                  </Button>
                 </li>
               ))}
             </ul>
