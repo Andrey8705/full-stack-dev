@@ -15,6 +15,7 @@ class CapsuleSchema(BaseModel):
     message: str
     user_id: int
     create_date: datetime
+    is_public: bool
 
     model_config = {
         "from_attributes": True  # это как orm_mode в Pydantic 1
