@@ -1,4 +1,3 @@
-import dotenv
 from fastapi import APIRouter, HTTPException, Depends
 from database.db_setup import get_db
 from sqlalchemy.orm import Session
@@ -11,6 +10,7 @@ from models.userBase import User
 from models.tokenBase import Token
 from datetime import datetime
 from jose import jwt
+from models.tokenBaseModel import TokenRefreshRequest
 from dotenv import load_dotenv
 from functions.mainLogic import create_access_token, create_refresh_token, check_user_role, verify_acces_token
 
@@ -37,7 +37,7 @@ def register_user(user: UserRegister, db: Session = Depends(get_db)):
     return JSONResponse(content={"message": f"User {new_user.name} successfully registered"})
 
 @router.post("/auth/login")
-def login_user(user: UserLogin, db: Session = Depends(get_db)):
+async def login_user(user: UserLogin, db: Session = Depends(get_db)):
 
     existing_user = db.query(User).filter(User.email == user.email).first()
     if not existing_user or not bcrypt.checkpw(user.password.encode('utf-8'), existing_user.password.encode('utf-8')):
@@ -111,13 +111,16 @@ def get_current_user(
     return {
         "email": user.email,
         "name": user.name,
-        "role": user.role
+        "role": user.role,
+        "avatar_url": user.avatar_url
     }
 
 
 @router.post("/auth/refresh")
-def refresh_access_token(refresh_token: str, db: Session = Depends(get_db)):
-
+def refresh_access_token(request: TokenRefreshRequest, db: Session = Depends(get_db)):
+    refresh_token = request.refresh_token
+    if not refresh_token:
+        raise HTTPException(status_code=400, detail="Refresh token is required")
     try:
         payload = jwt.decode(refresh_token, os.getenv("SECRET_KEY"), algorithms=[os.getenv("ALGORITHM")])
         token_id = payload.get("id")

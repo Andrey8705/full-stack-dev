@@ -7,3 +7,6 @@ class RefreshToken(BaseModel):
     user_id: str
     expires_at: datetime
     is_active: Optional[bool] = True
+
+class TokenRefreshRequest(BaseModel):
+    refresh_token: str

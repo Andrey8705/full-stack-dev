@@ -4,7 +4,8 @@ from fastapi.security import OAuth2PasswordBearer
 from routers import capsuleRouters, userRouters
 from database.db_setup import create_db
 from fastapi.middleware.cors import CORSMiddleware
-
+from fastapi.staticfiles import StaticFiles
+from routers import UploadRouter
 
 load_dotenv()
 
@@ -16,6 +17,9 @@ def startup():
 
 app.include_router(userRouters.router, prefix="/api", tags=["Users"])
 app.include_router(capsuleRouters.router, prefix="/api", tags=["Capsule"])
+app.include_router(UploadRouter.router, prefix="/api", tags=["Upload"])
+app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
+
 
 app.add_middleware(
     CORSMiddleware,
