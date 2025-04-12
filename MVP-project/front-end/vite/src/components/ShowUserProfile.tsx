@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
+import { FileUploader } from './FileUpload';
 
 interface UserProfile {
   name: string;
@@ -53,6 +54,13 @@ const ShowUserProfile: React.FC = () => {
         <p><span className="font-medium text-gray-600">Name:</span> {user.name}</p>
         <p><span className="font-medium text-gray-600">Email:</span> {user.email}</p>
         <p><span className="font-medium text-gray-600">Role:</span> {user.role}</p>
+        <FileUploader
+          label="Upload your avatar"
+          accept={['image/*']}
+          maxFiles={1}
+          onFilesSelected={(files) => console.log(files)}
+          multiple={true}
+        />
       </div>
     </div>
   );

@@ -10,6 +10,14 @@ interface FileUploaderProps {
   defaultPreviewUrls?: string[];
 }
 
+const formatAccept = (accept: string | string[]) => {
+  if (typeof accept === 'string') {
+    return { [accept]: [] };
+  } else {
+    return accept.reduce((acc, type) => ({ ...acc, [type]: [] }), {});
+  }
+};
+
 export const FileUploader = ({
   label,
   accept,
@@ -27,10 +35,7 @@ export const FileUploader = ({
   };
 
   const { getRootProps, getInputProps } = useDropzone({
-    accept: {
-      'image/*': [],
-      'video/*': [],
-    },
+    accept: formatAccept(accept),
     onDrop,
     multiple,
     maxFiles,
