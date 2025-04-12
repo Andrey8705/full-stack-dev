@@ -1,27 +1,33 @@
 import { useState, useEffect } from "react";
-import { CirclePlus, User, Sparkles, Menu, LogOut, Laugh } from "lucide-react";
+import { CirclePlus, User, Sparkles, Menu, LogOut } from "lucide-react";
 import { Link } from "react-router-dom";
 import { authFetch } from "@/app/service/AuthFetch";
+ // путь к компоненту
 
 const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(true);
-  const [user, setUser] = useState<{ avatar: string; email: string } | null>(null);
+  const [user, setUser] = useState<{ avatar_url: string; email: string } | null>(null);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    } else {
-      authFetch("http://localhost:8000/api/me", {
-        method: "GET",
-        headers: { Authorization: `Bearer ${localStorage.getItem("access_token")}` },
-      })
-        .then((res) => res.json())
-        .then((data) => setUser(data))
-        .catch(() => console.error("Ошибка загрузки пользователя"));
+  const fetchUser = async () => {
+    try {
+      const res = await authFetch("http://localhost:8000/api/me");
+      const data = await res.json();
+
+      if (data.avatar_url && data.avatar_url.startsWith("/")) {
+        data.avatar_url = `http://localhost:8000${data.avatar_url}`;
+      }
+
+      setUser(data);
+    } catch (err) {
+      console.error("Ошибка загрузки пользователя", err);
     }
+  };
+
+    fetchUser();
   }, []);
 
+  console.log(user)
   const menuItems = [
     { name: "Create capsule", icon: <CirclePlus />, path: "/CreateCapsule" },
     { name: "Profile", icon: <User />, path: "/profile" },
@@ -36,10 +42,16 @@ const Sidebar = () => {
       >
         <Menu size={24} />
       </button>
-
+    
       {user && (
         <div className="mt-5 flex items-center space-x-4 p-2">
-          <Laugh />
+          {user.avatar_url ? (
+            <img
+              src={user.avatar_url}
+              alt="avatar"
+              className={`object-cover border border-white shadow-md rounded-full w-12 h-12 mt-5 ${isCollapsed ? "hidden" : "block"}`}
+            />
+          ) : null}
           {!isCollapsed && <span className="text-sm">{user.email}</span>}
         </div>
       )}

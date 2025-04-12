@@ -6,3 +6,4 @@ database.db
 db.sql
 node_modules/
 .env
+uploads/
