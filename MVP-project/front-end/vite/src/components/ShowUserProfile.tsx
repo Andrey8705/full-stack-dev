@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import { FileUploader } from './FileUpload';
+import { FileUploader } from '@/components/FileUpload';
 import { authFetch } from '@/app/service/AuthFetch';
+import { API_BASE_URL } from '@/app/service/AuthFetch';
 
 interface UserProfile {
   name: string;
@@ -91,7 +92,8 @@ const ShowUserProfile: React.FC = () => {
         accept={['image/*']}
         maxFiles={1}
         multiple={false}
-        onUploadSuccess={(result) => {
+        uploadUrl={`${API_BASE_URL}upload-avatar`}
+        onUploadSuccess={(result: { avatar_url: string }) => {
           toast.success("Аватар обновлён!");
           setUser((prev) => prev ? { ...prev, avatar: result.avatar_url } : prev);
         }}

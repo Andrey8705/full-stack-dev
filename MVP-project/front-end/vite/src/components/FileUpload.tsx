@@ -1,11 +1,11 @@
 import { useDropzone } from 'react-dropzone';
 import { useState, useEffect } from 'react';
-import { API_BASE_URL } from '@/app/service/AuthFetch';
 import { toast } from 'react-toastify';
 
 interface FileUploaderProps {
   label: string;
   accept: string | string[];
+  uploadUrl: string;
   maxFiles?: number;
   multiple?: boolean;
   defaultPreviewUrls?: string[];
@@ -23,6 +23,7 @@ const formatAccept = (accept: string | string[]) => {
 export const FileUploader = ({
   label,
   accept,
+  uploadUrl,
   maxFiles = 1,
   multiple = false,
   defaultPreviewUrls = [],
@@ -49,11 +50,11 @@ export const FileUploader = ({
     if (!selectedFiles.length) return;
 
     const formData = new FormData();
-    formData.append("file", selectedFiles[0]);
+    selectedFiles.forEach(file => formData.append("file", file));
 
     setIsUploading(true);
     try {
-      const response = await fetch(`${API_BASE_URL}upload-avatar`, {
+      const response = await fetch(uploadUrl, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token") || ""}`,
@@ -64,10 +65,8 @@ export const FileUploader = ({
       if (!response.ok) throw new Error("Ошибка загрузки файла");
 
       const data = await response.json();
-
-      // Успешно загружено — вызываем callback
-      if (onUploadSuccess) onUploadSuccess(data);
-      toast.success("Аватар успешно загружен!");
+      onUploadSuccess?.(data);
+      toast.success("Файлы успешно загружены!");
     } catch (error) {
       console.error("Ошибка при загрузке:", error);
       alert("Ошибка загрузки файла");
@@ -113,5 +112,6 @@ export const FileUploader = ({
     </div>
   );
 };
+
 
 export default FileUploader;

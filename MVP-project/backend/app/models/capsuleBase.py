@@ -14,3 +14,4 @@ class Capsule(Base):
     user = relationship("User", back_populates="capsules")
     create_date = Column(DateTime, default=datetime.utcnow)
     is_public = Column(Boolean, default=True)
+    file_url = Column(String, nullable=True)
