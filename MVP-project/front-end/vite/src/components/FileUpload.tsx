@@ -10,6 +10,7 @@ interface FileUploaderProps {
   multiple?: boolean;
   defaultPreviewUrls?: string[];
   onUploadSuccess?: (response: any) => void;
+  capsuleId: number;
 }
 
 const formatAccept = (accept: string | string[]) => {

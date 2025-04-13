@@ -93,6 +93,7 @@ const ShowUserProfile: React.FC = () => {
         maxFiles={1}
         multiple={false}
         uploadUrl={`${API_BASE_URL}upload-avatar`}
+        capsuleId={1} // Provide a valid capsuleId value
         onUploadSuccess={(result: { avatar_url: string }) => {
           toast.success("Аватар обновлён!");
           setUser((prev) => prev ? { ...prev, avatar: result.avatar_url } : prev);

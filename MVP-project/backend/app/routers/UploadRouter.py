@@ -61,6 +61,8 @@ async def upload_avatar(file: UploadFile = File(...),token: str = Depends(oauth2
 async def upload_file_to_capsule(
     capsule_id: int,
     file: UploadFile = File(...),
+    token: str = Depends(oauth2_scheme),
+    db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
     os.makedirs(UPLOAD_DIR, exist_ok=True)

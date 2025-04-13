@@ -27,7 +27,6 @@ const Sidebar = () => {
     fetchUser();
   }, []);
 
-  console.log(user)
   const menuItems = [
     { name: "Create capsule", icon: <CirclePlus />, path: "/CreateCapsule" },
     { name: "Profile", icon: <User />, path: "/profile" },
